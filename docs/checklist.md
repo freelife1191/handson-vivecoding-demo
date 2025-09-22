@@ -16,11 +16,11 @@
   - [x] 기본 디렉토리 구조 생성 (src/, components/, hooks/ 등)
   - **커밋**: "프론트엔드 개발 환경 및 Mantine 설정"
 
-- [ ] **1.3 백엔드 프로젝트 설정**
-  - [ ] Node.js + TypeScript 프로젝트 초기화 (backend/)
-  - [ ] Jest 등 테스트 환경 설정
-  - [ ] ESLint 및 Prettier 설정
-  - [ ] 기본 디렉토리 구조 생성 (src/)
+- [x] **1.3 백엔드 프로젝트 설정**
+  - [x] Node.js + TypeScript 프로젝트 초기화 (backend/)
+  - [x] Jest 등 테스트 환경 설정
+  - [x] ESLint 및 Prettier 설정
+  - [x] 기본 디렉토리 구조 생성 (src/)
   - **커밋**: "백엔드 개발 환경 설정"
 
 - [ ] **1.4 공통 모듈(shared) 설정**
