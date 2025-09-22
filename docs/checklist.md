@@ -9,11 +9,11 @@
   - [x] 각 영역별 README.md 작성 (간단 역할 설명)
   - **커밋**: "모노레포 디렉토리 구조 및 기본 문서 생성"
 
-- [ ] **1.2 프론트엔드 프로젝트 설정**
-  - [ ] React + Vite + TypeScript + Mantine 프로젝트 초기화 (frontend/)
-  - [ ] Jest 및 React Testing Library 설정
-  - [ ] ESLint 및 Prettier 설정
-  - [ ] 기본 디렉토리 구조 생성 (src/, components/, hooks/ 등)
+- [x] **1.2 프론트엔드 프로젝트 설정**
+  - [x] React + Vite + TypeScript + Mantine 프로젝트 초기화 (frontend/)
+  - [x] Jest 및 React Testing Library 설정
+  - [x] ESLint 및 Prettier 설정
+  - [x] 기본 디렉토리 구조 생성 (src/, components/, hooks/ 등)
   - **커밋**: "프론트엔드 개발 환경 및 Mantine 설정"
 
 - [ ] **1.3 백엔드 프로젝트 설정**
