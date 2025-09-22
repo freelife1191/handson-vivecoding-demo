@@ -1,0 +1,120 @@
+#!/bin/sh
+
+# frontend 디렉토리 변경 감지 및 자동 실행 스크립트
+echo "🚀 Starting pre-commit hook for frontend changes..."
+echo "📅 Timestamp: $(date '+%Y-%m-%d %H:%M:%S')"
+echo "📂 Current directory: $(pwd)"
+echo "👤 User: $(whoami)"
+echo ""
+
+# 변경된 파일 중 frontend/ 디렉토리에 있는 파일이 있는지 확인
+echo "🔍 Checking for staged changes..."
+CHANGED_FILES=$(git diff --cached --name-only)
+echo "📋 Total staged files: $(echo "$CHANGED_FILES" | wc -l | tr -d ' ')"
+echo "📄 Staged files:"
+echo "$CHANGED_FILES" | sed 's/^/  - /'
+echo ""
+
+FRONTEND_CHANGES=$(echo "$CHANGED_FILES" | grep "^frontend/" || true)
+
+if [ -z "$FRONTEND_CHANGES" ]; then
+  echo "✅ No frontend changes detected. Skipping frontend checks."
+  echo "📊 Summary: No frontend files in staged changes"
+  exit 0
+fi
+
+echo "📁 Frontend changes detected:"
+echo "$FRONTEND_CHANGES" | sed 's/^/  - /'
+echo "📊 Frontend files count: $(echo "$FRONTEND_CHANGES" | wc -l | tr -d ' ')"
+echo ""
+
+# frontend 디렉토리 존재 확인
+if [ ! -d "frontend" ]; then
+  echo "❌ Error: frontend directory not found!"
+  echo "📂 Current directory contents:"
+  ls -la
+  exit 1
+fi
+
+# frontend 디렉토리로 이동
+echo "📂 Changing to frontend directory..."
+cd frontend
+echo "📂 Current directory: $(pwd)"
+
+# package.json 존재 확인
+if [ ! -f "package.json" ]; then
+  echo "❌ Error: package.json not found in frontend directory!"
+  echo "📂 Frontend directory contents:"
+  ls -la
+  exit 1
+fi
+
+# npm 설치 확인
+echo "🔍 Checking npm installation..."
+if ! command -v npm &> /dev/null; then
+  echo "❌ Error: npm is not installed or not in PATH!"
+  exit 1
+fi
+echo "✅ npm version: $(npm --version)"
+
+# node_modules 존재 확인
+if [ ! -d "node_modules" ]; then
+  echo "⚠️  Warning: node_modules not found. Running npm install..."
+  npm install
+  if [ $? -ne 0 ]; then
+    echo "❌ Error: npm install failed!"
+    exit 1
+  fi
+  echo "✅ npm install completed successfully"
+fi
+
+echo ""
+echo "🔧 Running lint fix..."
+echo "📅 Lint start time: $(date '+%Y-%m-%d %H:%M:%S')"
+npm run lint:fix
+LINT_EXIT_CODE=$?
+echo "📅 Lint end time: $(date '+%Y-%m-%d %H:%M:%S')"
+
+if [ $LINT_EXIT_CODE -ne 0 ]; then
+  echo "❌ Error: Lint fix failed with exit code $LINT_EXIT_CODE"
+  echo "🔍 Please check the lint errors above and fix them"
+  exit $LINT_EXIT_CODE
+fi
+echo "✅ Lint fix completed successfully"
+
+echo ""
+echo "🏗️  Running build..."
+echo "📅 Build start time: $(date '+%Y-%m-%d %H:%M:%S')"
+npm run build
+BUILD_EXIT_CODE=$?
+echo "📅 Build end time: $(date '+%Y-%m-%d %H:%M:%S')"
+
+if [ $BUILD_EXIT_CODE -ne 0 ]; then
+  echo "❌ Error: Build failed with exit code $BUILD_EXIT_CODE"
+  echo "🔍 Please check the build errors above and fix them"
+  exit $BUILD_EXIT_CODE
+fi
+echo "✅ Build completed successfully"
+
+echo ""
+echo "🧪 Running tests..."
+echo "📅 Test start time: $(date '+%Y-%m-%d %H:%M:%S')"
+npm run test -- --run
+TEST_EXIT_CODE=$?
+echo "📅 Test end time: $(date '+%Y-%m-%d %H:%M:%S')"
+
+if [ $TEST_EXIT_CODE -ne 0 ]; then
+  echo "❌ Error: Tests failed with exit code $TEST_EXIT_CODE"
+  echo "🔍 Please check the test failures above and fix them"
+  exit $TEST_EXIT_CODE
+fi
+echo "✅ Tests completed successfully"
+
+echo ""
+echo "🎉 Frontend checks completed successfully!"
+echo "📊 Summary:"
+echo "  - Lint fix: ✅ Passed"
+echo "  - Build: ✅ Passed"
+echo "  - Tests: ✅ Passed"
+echo "📅 Total execution time: $(date '+%Y-%m-%d %H:%M:%S')"
+echo "🚀 Pre-commit hook completed successfully!"

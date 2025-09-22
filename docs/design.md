@@ -294,6 +294,43 @@ sequenceDiagram
 3. 코드 리팩토링
 4. 반복
 
+### 4.4 Git Hook을 통한 자동화된 코드 품질 관리
+
+프론트엔드 개발 시 코드 품질을 자동으로 보장하기 위해 Git Hook을 활용합니다:
+
+#### Pre-commit Hook 설정
+- **위치**: 루트 `.husky/pre-commit` (모노레포 전체 관리)
+- **변경 감지**: frontend 디렉토리 변경 시에만 실행
+- **자동 실행 순서**:
+  1. **Lint Fix**: ESLint를 통한 코드 스타일 자동 수정
+  2. **Build**: TypeScript 컴파일 및 Vite 빌드 검증
+  3. **Test**: Vitest를 통한 테스트 실행 및 통과 확인
+
+#### Hook 실행 조건
+```bash
+# frontend 디렉토리 변경 시
+git add frontend/src/components/MyComponent.tsx
+git commit -m "feat: 새로운 컴포넌트 추가"
+# → 자동으로 lint fix, build, test 실행
+
+# 다른 디렉토리 변경 시
+git add docs/README.md
+git commit -m "docs: 문서 업데이트"
+# → frontend 변경 없으므로 hook 실행 안됨
+```
+
+#### 모노레포 관리 장점
+- **중앙화된 관리**: 루트에서 모든 git hook 관리
+- **확장성**: 향후 backend, shared 등 다른 패키지에도 hook 추가 가능
+- **일관성**: 프로젝트 전체에서 동일한 git hook 정책 적용
+- **유지보수성**: 하나의 위치에서 모든 hook 관리
+
+#### 장점
+- **코드 품질 보장**: 커밋 전 자동 검증으로 품질 저하 방지
+- **개발 효율성**: 수동 검증 과정 생략으로 개발 속도 향상
+- **일관성 유지**: 팀 전체가 동일한 코드 품질 기준 적용
+- **선택적 실행**: frontend 변경 시에만 실행되어 불필요한 오버헤드 방지
+
 ## 5. UI/UX 설계
 
 ### 5.1 디자인 원칙
