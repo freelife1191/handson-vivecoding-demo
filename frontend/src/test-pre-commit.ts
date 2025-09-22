@@ -5,4 +5,5 @@ export const testPreCommitHook = () => {
 };
 
 // 의도적으로 포맷팅 문제를 만들어서 lint fix가 작동하는지 확인
-const   badlyFormatted   =   "test"   ;
+const badlyFormatted = 'test';
+console.log(badlyFormatted);
