@@ -1,0 +1,31 @@
+{
+  "name": "handson-vivecoding-demo",
+  "version": "1.0.0",
+  "description": "TODO Web Application Monorepo",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "shared",
+    "infrastructure"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=frontend",
+    "build": "npm run build --workspace=frontend",
+    "test": "npm run test --workspace=frontend",
+    "lint": "npm run lint --workspace=frontend",
+    "format": "npm run format --workspace=frontend",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
