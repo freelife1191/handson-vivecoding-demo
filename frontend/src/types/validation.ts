@@ -1,5 +1,11 @@
 // 타입 정의 검증을 위한 간단한 유틸리티 함수들
-import type { Todo, CreateTodoInput, UpdateTodoInput, Priority, TodoStatus } from './index';
+import type {
+  Todo,
+  CreateTodoInput,
+  UpdateTodoInput,
+  Priority,
+  TodoStatus,
+} from './index';
 import { PRIORITY_INFO, STATUS_INFO } from './index';
 
 /**
@@ -25,7 +31,8 @@ export function validateCreateTodoInput(input: CreateTodoInput): boolean {
   return (
     typeof input.title === 'string' &&
     input.title.length > 0 &&
-    (input.priority === undefined || ['low', 'medium', 'high'].includes(input.priority))
+    (input.priority === undefined ||
+      ['low', 'medium', 'high'].includes(input.priority))
   );
 }
 
@@ -34,9 +41,12 @@ export function validateCreateTodoInput(input: CreateTodoInput): boolean {
  */
 export function validateUpdateTodoInput(input: UpdateTodoInput): boolean {
   return (
-    (input.title === undefined || (typeof input.title === 'string' && input.title.length > 0)) &&
-    (input.priority === undefined || ['low', 'medium', 'high'].includes(input.priority)) &&
-    (input.status === undefined || ['pending', 'completed'].includes(input.status))
+    (input.title === undefined ||
+      (typeof input.title === 'string' && input.title.length > 0)) &&
+    (input.priority === undefined ||
+      ['low', 'medium', 'high'].includes(input.priority)) &&
+    (input.status === undefined ||
+      ['pending', 'completed'].includes(input.status))
   );
 }
 
@@ -45,7 +55,7 @@ export function validateUpdateTodoInput(input: UpdateTodoInput): boolean {
  */
 export function validatePriorityInfo(): boolean {
   const priorities: Priority[] = ['low', 'medium', 'high'];
-  return priorities.every(priority => {
+  return priorities.every((priority) => {
     const info = PRIORITY_INFO[priority];
     return (
       info.value === priority &&
@@ -61,7 +71,7 @@ export function validatePriorityInfo(): boolean {
  */
 export function validateStatusInfo(): boolean {
   const statuses: TodoStatus[] = ['pending', 'completed'];
-  return statuses.every(status => {
+  return statuses.every((status) => {
     const info = STATUS_INFO[status];
     return (
       info.value === status &&
@@ -75,8 +85,5 @@ export function validateStatusInfo(): boolean {
  * 모든 타입 정의가 올바른지 검증
  */
 export function validateAllTypes(): boolean {
-  return (
-    validatePriorityInfo() &&
-    validateStatusInfo()
-  );
+  return validatePriorityInfo() && validateStatusInfo();
 }
