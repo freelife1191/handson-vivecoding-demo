@@ -46,7 +46,7 @@
     - UI 라이브러리: Mantine  
       (모던 디자인, 훅 기반 API, 타입스크립트 완벽 지원, 다크 모드 지원)
     - 상태 관리: React Context + useReducer
-    - 테스트: Jest, React Testing Library
+    - 테스트: Vitest (Jest 호환 API), React Testing Library
 - 백엔드: Node.js (TypeScript)
 - 인프라: AWS CDK로 서버리스 (API Gateway, Lambda, DynamoDB) 아키텍처 사용
 - 빌드 도구: Vite

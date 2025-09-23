@@ -275,13 +275,13 @@ sequenceDiagram
 
 ### 4.1 프론트엔드 테스트
 
-1. **단위 테스트**: Jest를 사용하여 개별 컴포넌트, 훅, 유틸리티 함수 테스트
+1. **단위 테스트**: Vitest를 사용하여 개별 컴포넌트, 훅, 유틸리티 함수 테스트 (Jest 호환 API)
 2. **통합 테스트**: React Testing Library를 사용하여 컴포넌트 통합 테스트
 3. **E2E 테스트**: Cypress를 사용하여 전체 사용자 흐름 테스트
 
 ### 4.2 백엔드 테스트
 
-1. **단위 테스트**: Jest를 사용하여 Lambda 함수 로직 테스트
+1. **단위 테스트**: Vitest 또는 Jest를 사용하여 Lambda 함수 로직 테스트
 2. **통합 테스트**: AWS SDK를 사용하여 DynamoDB 통합 테스트
 3. **API 테스트**: Postman 또는 Insomnia를 사용하여 API 엔드포인트 테스트
 
@@ -304,7 +304,7 @@ sequenceDiagram
 - **자동 실행 순서**:
   1. **Lint Fix**: ESLint를 통한 코드 스타일 자동 수정
   2. **Build**: TypeScript 컴파일 및 Vite 빌드 검증
-  3. **Test**: Vitest를 통한 테스트 실행 및 통과 확인
+  3. **Test**: Vitest를 통한 테스트 실행 및 통과 확인 (Jest 호환 API)
 
 #### Hook 실행 조건
 ```bash
