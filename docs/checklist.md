@@ -132,7 +132,7 @@
 
 ## 6단계: 프론트엔드 테스트 및 품질 보증
 
-- [ ] **6.1 단위 테스트 완성 (Jest + React Testing Library)**
+- [ ] **6.1 단위 테스트 완성 (Vitest + React Testing Library)**
   - [ ] 모든 컴포넌트 단위 테스트 작성
   - [ ] 커스텀 훅 테스트 완성
   - [ ] 유틸리티 함수 테스트 완성
@@ -200,7 +200,7 @@
   - **커밋**: "인증 및 권한 관리 구현"
 
 - [ ] **8.4 백엔드 테스트 구현 (TDD)**
-  - [ ] Lambda 함수 단위 테스트 작성 (Jest)
+  - [ ] Lambda 함수 단위 테스트 작성 (Jest/Vitest)
   - [ ] DynamoDB 통합 테스트 작성 (AWS SDK)
   - [ ] API 엔드포인트 테스트 작성 (Postman/Insomnia)
   - [ ] 에러 처리 및 예외 상황 테스트
@@ -277,6 +277,7 @@
 - **언어**: 모든 코드는 TypeScript로 작성하며, 적절한 타입 정의 포함
 - **상태 관리**: React Context API + useReducer 패턴
 - **스토리지**: 로컬 스토리지 → API 전환 방식
+- **테스트**: Vitest + React Testing Library (Jest 호환 API)
 
 ### 품질 기준
 - **접근성**: WCAG 2.1 AA 수준 준수
