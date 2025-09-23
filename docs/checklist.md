@@ -35,19 +35,22 @@
   - **커밋**: "Todo 모델 정의 및 테스트"
 
 - [ ] **2.2 Todo 상태 관리 (Context + Reducer)**
-  - [ ] TodoAction 타입 정의 및 테스트
+  - [ ] TodoAction 타입 정의 (ADD_TODO, UPDATE_TODO, DELETE_TODO, TOGGLE_TODO, SET_TODOS)
+  - [ ] TodoAction 타입 테스트 작성
   - [ ] TodoReducer 테스트 작성
-  - [ ] TodoReducer 구현
+  - [ ] TodoReducer 구현 (상태 업데이트 로직)
   - [ ] TodoContext 테스트 작성
   - [ ] TodoContext 및 Provider 구현
+  - [ ] 상태 지속성 및 동기화 로직 구현
   - **커밋**: "Todo 상태 관리 로직 구현 (TDD)"
 
-- [ ] **2.3 로컬 스토리지 어댑터**
-  - [ ] 스토리지 인터페이스 정의 및 테스트
-  - [ ] 로컬 스토리지 어댑터 테스트 작성
-  - [ ] 로컬 스토리지 어댑터 구현
+- [ ] **2.3 스토리지 전략 구현**
+  - [ ] StorageService 인터페이스 정의 (getTodos, saveTodos)
+  - [ ] LocalStorageService 구현 및 테스트
+  - [ ] ApiStorageService 인터페이스 정의 (백엔드 연결용)
+  - [ ] 스토리지 전략 전환 메커니즘 구현
   - [ ] 데이터 지속성 및 동기화 로직 구현
-  - **커밋**: "로컬 스토리지 어댑터 구현 (TDD)"
+  - **커밋**: "스토리지 전략 구현 (TDD)"
 
 - [ ] **2.4 Todo 관련 커스텀 훅**
   - [ ] useTodoState 훅 테스트 작성
@@ -60,9 +63,11 @@
 ## 3단계: 프론트엔드 UI 컴포넌트 구현 (Mantine 기반)
 
 - [ ] **3.1 공통 UI 컴포넌트 (Mantine 활용)**
-  - [ ] Button, Input, Checkbox, Select 등 Mantine 컴포넌트 래핑/활용
+  - [ ] Mantine 디자인 시스템 적용 (Card, Checkbox, Select, TextInput, Button)
   - [ ] AppShell, Notification 등 Mantine 고급 컴포넌트 적용
-  - [ ] 테마 설정 및 다크모드 지원
+  - [ ] 테마 설정 및 다크모드/라이트모드 지원
+  - [ ] 반응형 레이아웃 (Grid, Flex 등 Mantine 컴포넌트 활용)
+  - [ ] 일관된 컬러/타이포그래피/컴포넌트 스타일 유지
   - **커밋**: "공통 UI 컴포넌트(Mantine) 구현"
 
 - [ ] **3.2 Todo 관련 컴포넌트**
@@ -170,22 +175,26 @@
 ## 8단계: 백엔드 API 구현 (TDD)
 
 - [ ] **8.1 데이터 모델 및 스키마 정의**
-  - [ ] DynamoDB 테이블 스키마 정의
+  - [ ] DynamoDB Todos 테이블 설계 (파티션 키: userId, 정렬 키: id)
+  - [ ] 테이블 속성 정의 (title, priority, completed, createdAt)
   - [ ] 데이터 모델 테스트 작성
   - [ ] 데이터 모델 구현
   - **커밋**: "백엔드 데이터 모델 정의 및 테스트"
 
 - [ ] **8.2 API 엔드포인트 구현**
-  - [ ] Todo CRUD API 테스트 작성
-  - [ ] Lambda 함수 구현
-  - [ ] API Gateway 설정
+  - [ ] API 엔드포인트 명세 정의 (GET/POST /api/todos, GET/PUT/DELETE /api/todos/{id})
+  - [ ] Lambda 함수 구현 (getTodos, createTodo, getTodo, updateTodo, deleteTodo)
+  - [ ] API Gateway 설정 및 라우팅 구성
   - [ ] 에러 처리 및 검증 로직 구현
+  - [ ] HTTP 상태 코드 및 응답 형식 표준화
   - **커밋**: "백엔드 API 엔드포인트 구현 (TDD)"
 
 - [ ] **8.3 인증 및 권한 관리**
-  - [ ] AWS Cognito 설정
+  - [ ] AWS Cognito 사용자 풀 생성 및 설정
+  - [ ] 앱 클라이언트 설정
+  - [ ] API Gateway와 Cognito 통합
   - [ ] JWT 토큰 검증 로직 구현
-  - [ ] 사용자별 데이터 접근 제어
+  - [ ] 사용자별 데이터 접근 제어 (userId 기반)
   - **커밋**: "인증 및 권한 관리 구현"
 
 - [ ] **8.4 백엔드 테스트 구현 (TDD)**
@@ -228,15 +237,20 @@
 ## 10단계: 인프라 및 배포
 
 - [ ] **10.1 인프라 코드 작성**
-  - [ ] AWS CDK 등 IaC 코드 작성 (infrastructure/)
+  - [ ] AWS CDK 프로젝트 설정 (infrastructure/)
+  - [ ] DynamoDB 테이블 인프라 정의
+  - [ ] Lambda 함수 인프라 정의
+  - [ ] API Gateway 인프라 정의
+  - [ ] Cognito 사용자 풀 인프라 정의
   - [ ] 환경 변수/시크릿 관리
-  - [ ] CI/CD 파이프라인 설정
   - **커밋**: "인프라 코드 및 환경 설정"
 
 - [ ] **10.2 배포 자동화**
   - [ ] GitHub Actions 워크플로우 설정
-  - [ ] 프론트엔드/백엔드 배포 자동화
+  - [ ] 프론트엔드 배포 자동화 (GitHub Pages)
+  - [ ] 백엔드 배포 자동화 (AWS CDK)
   - [ ] 모노레포 패키지별 테스트/배포 최적화
+  - [ ] 환경별 배포 전략 (개발/스테이징/프로덕션)
   - **커밋**: "CI/CD 파이프라인 구축"
 
 - [ ] **10.3 배포 테스트 및 운영**
@@ -267,6 +281,13 @@
 - **반응형**: 모바일 우선 반응형 디자인
 - **성능**: React.memo, useMemo, useCallback 등 최적화 기법 적용
 - **테스트**: 단위 테스트, 통합 테스트, E2E 테스트 완비
+
+### UI/UX 디자인 원칙
+- **모바일 우선 디자인**: 모든 화면 크기에서 최적화된 경험
+- **직관적인 사용자 인터페이스**: 사용자가 쉽게 이해할 수 있는 UI
+- **Mantine 디자인 시스템**: 일관된 컬러/타이포그래피/컴포넌트 스타일 유지
+- **반응형 레이아웃**: Grid, Flex 등 Mantine 컴포넌트 활용
+- **고급 컴포넌트 활용**: Notification, Modal 등 Mantine 컴포넌트 적극 사용
 
 ### Git Hook 자동화
 - **Pre-commit Hook**: 루트 `.husky/pre-commit`에서 모노레포 전체 관리
