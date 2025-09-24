@@ -10,7 +10,7 @@ import {
   updateTodo,
   toggleTodoStatus,
   validateTodo,
-} from '../Todo';
+} from '../Todo.js';
 
 describe('Todo 모델', () => {
   let mockDate: Date;
