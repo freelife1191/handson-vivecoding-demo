@@ -28,11 +28,11 @@
 
 ## 2단계: 프론트엔드 코어 비즈니스 로직 구현 (TDD)
 
-- [ ] **2.1 Todo 모델 정의**
-  - [ ] Todo 인터페이스 정의 (id, title, priority, status, createdAt, updatedAt 등)
-  - [ ] Todo 모델 테스트 작성
-  - [ ] Todo 모델 구현
-  - [ ] 완료 상태 토글 기능 구현
+- [x] **2.1 Todo 모델 정의**
+  - [x] Todo 인터페이스 정의 (id, title, priority, status, createdAt, updatedAt 등)
+  - [x] Todo 모델 테스트 작성
+  - [x] Todo 모델 구현
+  - [x] 완료 상태 토글 기능 구현
   - **커밋**: "Todo 모델 정의 및 테스트"
 
 - [ ] **2.2 Todo 상태 관리 (Context + Reducer)**
