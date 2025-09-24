@@ -45,12 +45,12 @@
   - [x] 상태 지속성 및 동기화 로직 구현
   - **커밋**: "Todo 상태 관리 로직 구현 (TDD)"
 
-- [ ] **2.3 스토리지 전략 구현**
-  - [ ] StorageService 인터페이스 정의 (getTodos, saveTodos)
-  - [ ] LocalStorageService 구현 및 테스트
-  - [ ] ApiStorageService 인터페이스 정의 (백엔드 연결용)
-  - [ ] 스토리지 전략 전환 메커니즘 구현
-  - [ ] 데이터 지속성 및 동기화 로직 구현
+- [x] **2.3 스토리지 전략 구현**
+  - [x] StorageService 인터페이스 정의 (getTodos, saveTodos)
+  - [x] LocalStorageService 구현 및 테스트
+  - [x] ApiStorageService 인터페이스 정의 (백엔드 연결용)
+  - [x] 스토리지 전략 전환 메커니즘 구현
+  - [x] 데이터 지속성 및 동기화 로직 구현
   - **커밋**: "스토리지 전략 구현 (TDD)"
 
 - [ ] **2.4 Todo 관련 커스텀 훅**
