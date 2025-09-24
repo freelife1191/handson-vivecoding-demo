@@ -73,14 +73,14 @@ describe('LocalStorageService', () => {
     });
 
     it('localStorage가 없으면 false를 반환해야 한다', () => {
-      // @ts-ignore
+      // @ts-expect-error - Testing localStorage unavailability
       window.localStorage = null;
       const service = new LocalStorageService();
       expect(service.isAvailable()).toBe(false);
     });
 
     it('localStorage가 객체가 아니면 false를 반환해야 한다', () => {
-      // @ts-ignore
+      // @ts-expect-error - Testing localStorage unavailability
       window.localStorage = null;
       const service = new LocalStorageService();
       expect(service.isAvailable()).toBe(false);
@@ -114,11 +114,13 @@ describe('LocalStorageService', () => {
     });
 
     it('localStorage가 사용 불가능하면 에러를 발생시켜야 한다', async () => {
-      // @ts-ignore
+      // @ts-expect-error - Testing localStorage unavailability
       window.localStorage = null;
       const service = new LocalStorageService();
 
-      await expect(service.getTodos()).rejects.toThrow('localStorage is not available');
+      await expect(service.getTodos()).rejects.toThrow(
+        'localStorage is not available'
+      );
     });
 
     it('날짜 문자열을 Date 객체로 변환해야 한다', async () => {
@@ -136,7 +138,9 @@ describe('LocalStorageService', () => {
 
       expect(result[0].createdAt).toBeInstanceOf(Date);
       expect(result[0].updatedAt).toBeInstanceOf(Date);
-      expect(result[0].createdAt.getTime()).toBe(new Date('2024-01-01T08:00:00.000Z').getTime());
+      expect(result[0].createdAt.getTime()).toBe(
+        new Date('2024-01-01T08:00:00.000Z').getTime()
+      );
     });
   });
 
@@ -164,11 +168,13 @@ describe('LocalStorageService', () => {
     });
 
     it('localStorage가 사용 불가능하면 에러를 발생시켜야 한다', async () => {
-      // @ts-ignore
+      // @ts-expect-error - Testing localStorage unavailability
       window.localStorage = null;
       const service = new LocalStorageService();
 
-      await expect(service.saveTodos(mockTodos)).rejects.toThrow('localStorage is not available');
+      await expect(service.saveTodos(mockTodos)).rejects.toThrow(
+        'localStorage is not available'
+      );
     });
 
     it('저장 공간 부족 시 에러를 발생시켜야 한다', async () => {
@@ -187,7 +193,7 @@ describe('LocalStorageService', () => {
 
       const savedData = vi.mocked(mockLocalStorage.setItem).mock.calls[0][1];
       const parsedData = JSON.parse(savedData as string);
-      
+
       expect(parsedData[0].createdAt).toBe('2024-01-01T08:00:00.000Z');
       expect(parsedData[0].updatedAt).toBe('2024-01-01T08:00:00.000Z');
     });
@@ -199,15 +205,19 @@ describe('LocalStorageService', () => {
 
       await localStorageService.clearTodos();
 
-      expect(mockLocalStorage.removeItem).toHaveBeenCalledWith(STORAGE_KEYS.TODOS);
+      expect(mockLocalStorage.removeItem).toHaveBeenCalledWith(
+        STORAGE_KEYS.TODOS
+      );
     });
 
     it('localStorage가 사용 불가능하면 에러를 발생시켜야 한다', async () => {
-      // @ts-ignore
+      // @ts-expect-error - Testing localStorage unavailability
       window.localStorage = null;
       const service = new LocalStorageService();
 
-      await expect(service.clearTodos()).rejects.toThrow('localStorage is not available');
+      await expect(service.clearTodos()).rejects.toThrow(
+        'localStorage is not available'
+      );
     });
   });
 
@@ -216,12 +226,17 @@ describe('LocalStorageService', () => {
       const customKey = 'custom-todos';
       const customService = new LocalStorageService(customKey);
       vi.mocked(mockLocalStorage.setItem).mockImplementation(() => {});
-      vi.mocked(mockLocalStorage.getItem).mockReturnValue(JSON.stringify(mockTodos));
+      vi.mocked(mockLocalStorage.getItem).mockReturnValue(
+        JSON.stringify(mockTodos)
+      );
 
       await customService.saveTodos(mockTodos);
       const result = await customService.getTodos();
 
-      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(customKey, JSON.stringify(mockTodos));
+      expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
+        customKey,
+        JSON.stringify(mockTodos)
+      );
       expect(mockLocalStorage.getItem).toHaveBeenCalledWith(customKey);
       expect(result).toEqual(mockTodos);
     });
@@ -247,7 +262,9 @@ describe('LocalStorageService', () => {
   describe('데이터 무결성', () => {
     it('저장 후 읽은 데이터가 동일해야 한다', async () => {
       vi.mocked(mockLocalStorage.setItem).mockImplementation(() => {});
-      vi.mocked(mockLocalStorage.getItem).mockReturnValue(JSON.stringify(mockTodos));
+      vi.mocked(mockLocalStorage.getItem).mockReturnValue(
+        JSON.stringify(mockTodos)
+      );
 
       await localStorageService.saveTodos(mockTodos);
       const result = await localStorageService.getTodos();
@@ -266,7 +283,9 @@ describe('LocalStorageService', () => {
       }));
 
       vi.mocked(mockLocalStorage.setItem).mockImplementation(() => {});
-      vi.mocked(mockLocalStorage.getItem).mockReturnValue(JSON.stringify(largeTodos));
+      vi.mocked(mockLocalStorage.getItem).mockReturnValue(
+        JSON.stringify(largeTodos)
+      );
 
       await localStorageService.saveTodos(largeTodos);
       const result = await localStorageService.getTodos();

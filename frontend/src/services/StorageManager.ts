@@ -1,5 +1,10 @@
 import type { Todo } from '../types';
-import type { StorageService, ExtendedStorageService, StorageServiceStatus, StorageServiceEventListener } from './StorageService';
+import type {
+  StorageService,
+  ExtendedStorageService,
+  StorageServiceStatus,
+  StorageServiceEventListener,
+} from './StorageService';
 import { LocalStorageService } from './LocalStorageService';
 import { ApiStorageService } from './ApiStorageService';
 
@@ -53,15 +58,15 @@ export class StorageManager {
    */
   getAvailableStrategies(): StorageStrategy[] {
     const strategies: StorageStrategy[] = [];
-    
+
     if (this.localStorage.isAvailable()) {
       strategies.push('local');
     }
-    
+
     if (this.apiStorage.isAvailable()) {
       strategies.push('api');
     }
-    
+
     return strategies;
   }
 
@@ -86,7 +91,7 @@ export class StorageManager {
     if (!this.isStrategyAvailable('local')) {
       throw new Error('Local storage is not available');
     }
-    
+
     this.currentStrategy = 'local';
   }
 
@@ -97,7 +102,7 @@ export class StorageManager {
     if (!this.isStrategyAvailable('api')) {
       throw new Error('API storage is not available');
     }
-    
+
     this.currentStrategy = 'api';
   }
 
@@ -119,14 +124,18 @@ export class StorageManager {
    * 현재 전략의 스토리지 서비스를 반환합니다.
    */
   private getCurrentStorage(): StorageService {
-    return this.currentStrategy === 'local' ? this.localStorage : this.apiStorage;
+    return this.currentStrategy === 'local'
+      ? this.localStorage
+      : this.apiStorage;
   }
 
   /**
    * 대체 전략의 스토리지 서비스를 반환합니다.
    */
   private getFallbackStorage(): StorageService {
-    return this.currentStrategy === 'local' ? this.apiStorage : this.localStorage;
+    return this.currentStrategy === 'local'
+      ? this.apiStorage
+      : this.localStorage;
   }
 
   /**
@@ -141,13 +150,14 @@ export class StorageManager {
         // 대체 전략으로 자동 전환
         const fallbackStorage = this.getFallbackStorage();
         const result = await fallbackStorage.getTodos();
-        
+
         // 전략 전환
-        this.currentStrategy = this.currentStrategy === 'local' ? 'api' : 'local';
-        
+        this.currentStrategy =
+          this.currentStrategy === 'local' ? 'api' : 'local';
+
         return result;
       }
-      
+
       throw error;
     }
   }
@@ -164,13 +174,14 @@ export class StorageManager {
         // 대체 전략으로 자동 전환
         const fallbackStorage = this.getFallbackStorage();
         await fallbackStorage.saveTodos(todos);
-        
+
         // 전략 전환
-        this.currentStrategy = this.currentStrategy === 'local' ? 'api' : 'local';
-        
+        this.currentStrategy =
+          this.currentStrategy === 'local' ? 'api' : 'local';
+
         return;
       }
-      
+
       throw error;
     }
   }
@@ -187,13 +198,14 @@ export class StorageManager {
         // 대체 전략으로 자동 전환
         const fallbackStorage = this.getFallbackStorage();
         await fallbackStorage.clearTodos();
-        
+
         // 전략 전환
-        this.currentStrategy = this.currentStrategy === 'local' ? 'api' : 'local';
-        
+        this.currentStrategy =
+          this.currentStrategy === 'local' ? 'api' : 'local';
+
         return;
       }
-      
+
       throw error;
     }
   }
@@ -202,14 +214,18 @@ export class StorageManager {
    * 인증 토큰을 설정합니다.
    */
   setAuthToken(token: string): void {
-    this.apiStorage.setAuthToken(token);
+    if ('setAuthToken' in this.apiStorage) {
+      (this.apiStorage as ExtendedStorageService).setAuthToken(token);
+    }
   }
 
   /**
    * 인증 토큰을 제거합니다.
    */
   clearAuthToken(): void {
-    this.apiStorage.clearAuthToken();
+    if ('clearAuthToken' in this.apiStorage) {
+      (this.apiStorage as ExtendedStorageService).clearAuthToken();
+    }
   }
 
   /**
@@ -245,7 +261,7 @@ export class StorageManager {
    */
   checkConnection(): void {
     if ('checkConnection' in this.apiStorage) {
-      this.apiStorage.checkConnection();
+      (this.apiStorage as ExtendedStorageService).checkConnection();
     }
   }
 
@@ -273,7 +289,7 @@ export class StorageManager {
     try {
       // 현재 전략에서 데이터 가져오기
       const currentData = await this.getCurrentStorage().getTodos();
-      
+
       // 대체 전략에 데이터 저장
       const fallbackStorage = this.getFallbackStorage();
       await fallbackStorage.saveTodos(currentData);
@@ -288,16 +304,16 @@ export class StorageManager {
   async initialize(): Promise<void> {
     // 사용 가능한 전략 확인
     const availableStrategies = this.getAvailableStrategies();
-    
+
     if (availableStrategies.length === 0) {
       throw new Error('No storage strategies are available');
     }
-    
+
     // 기본 전략이 사용 불가능하면 첫 번째 사용 가능한 전략으로 전환
     if (!this.isStrategyAvailable(this.currentStrategy)) {
       this.currentStrategy = availableStrategies[0];
     }
-    
+
     // API 스토리지가 사용 가능하면 연결 상태 확인
     if (this.isStrategyAvailable('api')) {
       this.checkConnection();

@@ -1,5 +1,11 @@
 import type { Todo } from '../types';
-import type { StorageService, StorageServiceConfig, ExtendedStorageService, StorageServiceStatus, StorageServiceEvent, StorageServiceEventListener } from './StorageService';
+import type {
+  StorageServiceConfig,
+  ExtendedStorageService,
+  StorageServiceStatus,
+  StorageServiceEvent,
+  StorageServiceEventListener,
+} from './StorageService';
 import { StorageError, STORAGE_ERROR_CODES } from './StorageService';
 
 /**
@@ -49,7 +55,7 @@ export class ApiStorageService implements ExtendedStorageService {
    * 이벤트 발생
    */
   private emitEvent(event: StorageServiceEvent): void {
-    this.eventListeners.forEach(listener => {
+    this.eventListeners.forEach((listener) => {
       try {
         listener(event);
       } catch (error) {
@@ -62,8 +68,8 @@ export class ApiStorageService implements ExtendedStorageService {
    * HTTP 요청 실행 (재시도 로직 포함)
    */
   private async makeRequest(
-    url: string, 
-    options: RequestInit, 
+    url: string,
+    options: RequestInit,
     retryCount: number = this.config.retryCount
   ): Promise<Response> {
     const controller = new AbortController();
@@ -75,7 +81,7 @@ export class ApiStorageService implements ExtendedStorageService {
         signal: controller.signal,
         headers: {
           'Content-Type': 'application/json',
-          ...(this.authToken && { 'Authorization': `Bearer ${this.authToken}` }),
+          ...(this.authToken && { Authorization: `Bearer ${this.authToken}` }),
           ...options.headers,
         },
       });
@@ -110,7 +116,7 @@ export class ApiStorageService implements ExtendedStorageService {
    * 지연 함수
    */
   private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   /**
@@ -174,19 +180,19 @@ export class ApiStorageService implements ExtendedStorageService {
       this.lastSync = new Date();
       this.connected = true;
 
-      this.emitEvent({ 
-        type: 'sync_success', 
-        timestamp: new Date(), 
-        count: todos.length 
+      this.emitEvent({
+        type: 'sync_success',
+        timestamp: new Date(),
+        count: todos.length,
       });
 
       return todos;
     } catch (error) {
       this.connected = false;
-      this.emitEvent({ 
-        type: 'sync_error', 
-        timestamp: new Date(), 
-        error: error as Error 
+      this.emitEvent({
+        type: 'sync_error',
+        timestamp: new Date(),
+        error: error as Error,
       });
 
       if (error instanceof StorageError) {
@@ -227,17 +233,17 @@ export class ApiStorageService implements ExtendedStorageService {
       this.lastSync = new Date();
       this.connected = true;
 
-      this.emitEvent({ 
-        type: 'sync_success', 
-        timestamp: new Date(), 
-        count: todos.length 
+      this.emitEvent({
+        type: 'sync_success',
+        timestamp: new Date(),
+        count: todos.length,
       });
     } catch (error) {
       this.connected = false;
-      this.emitEvent({ 
-        type: 'sync_error', 
-        timestamp: new Date(), 
-        error: error as Error 
+      this.emitEvent({
+        type: 'sync_error',
+        timestamp: new Date(),
+        error: error as Error,
       });
 
       if (error instanceof StorageError) {
@@ -277,17 +283,17 @@ export class ApiStorageService implements ExtendedStorageService {
       this.lastSync = new Date();
       this.connected = true;
 
-      this.emitEvent({ 
-        type: 'sync_success', 
-        timestamp: new Date(), 
-        count: 0 
+      this.emitEvent({
+        type: 'sync_success',
+        timestamp: new Date(),
+        count: 0,
       });
     } catch (error) {
       this.connected = false;
-      this.emitEvent({ 
-        type: 'sync_error', 
-        timestamp: new Date(), 
-        error: error as Error 
+      this.emitEvent({
+        type: 'sync_error',
+        timestamp: new Date(),
+        error: error as Error,
       });
 
       if (error instanceof StorageError) {

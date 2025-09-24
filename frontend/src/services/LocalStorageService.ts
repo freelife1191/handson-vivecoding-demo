@@ -1,5 +1,5 @@
 import type { Todo } from '../types';
-import type { StorageService, StorageServiceConfig } from './StorageService';
+import type { StorageService } from './StorageService';
 import { StorageError, STORAGE_ERROR_CODES } from './StorageService';
 import { STORAGE_KEYS } from '../types';
 
@@ -18,9 +18,11 @@ export class LocalStorageService implements StorageService {
    */
   isAvailable(): boolean {
     try {
-      return typeof window !== 'undefined' && 
-             window.localStorage !== null && 
-             typeof window.localStorage === 'object';
+      return (
+        typeof window !== 'undefined' &&
+        window.localStorage !== null &&
+        typeof window.localStorage === 'object'
+      );
     } catch {
       return false;
     }
@@ -39,18 +41,18 @@ export class LocalStorageService implements StorageService {
 
     try {
       const storedData = localStorage.getItem(this.key);
-      
+
       if (storedData === null) {
         return [];
       }
 
       const todos = JSON.parse(storedData);
-      
+
       // 날짜 문자열을 Date 객체로 변환
-      return todos.map((todo: any) => ({
+      return todos.map((todo: Record<string, unknown>) => ({
         ...todo,
-        createdAt: new Date(todo.createdAt),
-        updatedAt: new Date(todo.updatedAt),
+        createdAt: new Date(todo.createdAt as string),
+        updatedAt: new Date(todo.updatedAt as string),
       }));
     } catch (error) {
       if (error instanceof SyntaxError) {
@@ -60,7 +62,7 @@ export class LocalStorageService implements StorageService {
           error
         );
       }
-      
+
       throw new StorageError(
         'Failed to read from localStorage',
         STORAGE_ERROR_CODES.UNKNOWN_ERROR,
@@ -82,7 +84,7 @@ export class LocalStorageService implements StorageService {
 
     try {
       // Date 객체를 문자열로 직렬화
-      const serializedTodos = todos.map(todo => ({
+      const serializedTodos = todos.map((todo) => ({
         ...todo,
         createdAt: todo.createdAt.toISOString(),
         updatedAt: todo.updatedAt.toISOString(),
@@ -98,7 +100,7 @@ export class LocalStorageService implements StorageService {
             error
           );
         }
-        
+
         if (error.name === 'SecurityError') {
           throw new StorageError(
             'Permission denied to access localStorage',
@@ -174,10 +176,10 @@ export class LocalStorageService implements StorageService {
       // 대략적인 사용 가능 공간 계산
       const testKey = '__storage_test__';
       const testData = 'x'.repeat(1024); // 1KB 테스트 데이터
-      
+
       localStorage.setItem(testKey, testData);
       localStorage.removeItem(testKey);
-      
+
       // 대부분의 브라우저에서 localStorage는 5-10MB 제한
       return 5 * 1024 * 1024; // 5MB로 가정
     } catch {
@@ -191,11 +193,11 @@ export class LocalStorageService implements StorageService {
   getStorageUsage(): number {
     const used = this.getStorageSize();
     const available = this.getAvailableSpace();
-    
+
     if (available === 0) {
       return 0;
     }
-    
+
     return Math.round((used / available) * 100);
   }
 }

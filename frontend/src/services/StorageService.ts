@@ -38,13 +38,14 @@ export interface StorageService {
  * 스토리지 서비스 에러 타입
  */
 export class StorageError extends Error {
-  constructor(
-    message: string,
-    public readonly code?: string,
-    public readonly cause?: unknown
-  ) {
+  public readonly code?: string;
+  public readonly cause?: unknown;
+
+  constructor(message: string, code?: string, cause?: unknown) {
     super(message);
     this.name = 'StorageError';
+    this.code = code;
+    this.cause = cause;
   }
 }
 
@@ -69,7 +70,8 @@ export const STORAGE_ERROR_CODES = {
 /**
  * 스토리지 서비스 에러 코드 타입
  */
-export type StorageErrorCode = typeof STORAGE_ERROR_CODES[keyof typeof STORAGE_ERROR_CODES];
+export type StorageErrorCode =
+  (typeof STORAGE_ERROR_CODES)[keyof typeof STORAGE_ERROR_CODES];
 
 /**
  * 스토리지 서비스 설정 인터페이스
@@ -102,7 +104,7 @@ export interface StorageServiceStatus {
 /**
  * 스토리지 서비스 이벤트 타입
  */
-export type StorageServiceEvent = 
+export type StorageServiceEvent =
   | { type: 'sync_start'; timestamp: Date }
   | { type: 'sync_success'; timestamp: Date; count: number }
   | { type: 'sync_error'; timestamp: Date; error: Error }
@@ -136,4 +138,19 @@ export interface ExtendedStorageService extends StorageService {
    * 수동으로 동기화를 실행합니다.
    */
   sync(): Promise<void>;
+
+  /**
+   * 인증 토큰을 설정합니다.
+   */
+  setAuthToken(token: string): void;
+
+  /**
+   * 인증 토큰을 제거합니다.
+   */
+  clearAuthToken(): void;
+
+  /**
+   * 연결 상태를 확인하고 업데이트합니다.
+   */
+  checkConnection(): void;
 }

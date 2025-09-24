@@ -1,6 +1,6 @@
 // Storage Service 관련 export
-export type { 
-  StorageService, 
+export type {
+  StorageService,
   ExtendedStorageService,
   StorageServiceConfig,
   StorageServiceStatus,
@@ -9,10 +9,7 @@ export type {
   StorageErrorCode,
 } from './StorageService';
 
-export { 
-  StorageError, 
-  STORAGE_ERROR_CODES 
-} from './StorageService';
+export { StorageError, STORAGE_ERROR_CODES } from './StorageService';
 
 // Local Storage Service
 export { LocalStorageService } from './LocalStorageService';

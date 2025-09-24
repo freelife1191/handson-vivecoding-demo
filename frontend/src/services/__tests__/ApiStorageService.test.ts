@@ -4,7 +4,7 @@ import { ApiStorageService } from '../ApiStorageService';
 import { StorageError, STORAGE_ERROR_CODES } from '../StorageService';
 
 // fetch 모킹
-global.fetch = vi.fn();
+globalThis.fetch = vi.fn();
 
 describe('ApiStorageService', () => {
   let apiStorageService: ApiStorageService;
@@ -79,17 +79,20 @@ describe('ApiStorageService', () => {
         status: 200,
         json: vi.fn().mockResolvedValue(mockTodos),
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
       const result = await apiStorageService.getTodos();
 
       expect(result).toEqual(mockTodos);
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/api/todos', expect.objectContaining({
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }));
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:3000/api/todos',
+        expect.objectContaining({
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+      );
     });
 
     it('빈 배열을 반환할 수 있어야 한다', async () => {
@@ -98,7 +101,7 @@ describe('ApiStorageService', () => {
         status: 200,
         json: vi.fn().mockResolvedValue([]),
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
       const result = await apiStorageService.getTodos();
 
@@ -117,7 +120,7 @@ describe('ApiStorageService', () => {
         status: 500,
         statusText: 'Internal Server Error',
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
       await expect(apiStorageService.getTodos()).rejects.toThrow(StorageError);
     });
@@ -128,7 +131,7 @@ describe('ApiStorageService', () => {
         status: 401,
         statusText: 'Unauthorized',
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
       await expect(apiStorageService.getTodos()).rejects.toThrow(StorageError);
     });
@@ -141,17 +144,20 @@ describe('ApiStorageService', () => {
         status: 200,
         json: vi.fn().mockResolvedValue({ success: true }),
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
       await apiStorageService.saveTodos(mockTodos);
 
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/api/todos', expect.objectContaining({
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(mockTodos),
-      }));
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:3000/api/todos',
+        expect.objectContaining({
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(mockTodos),
+        })
+      );
     });
 
     it('빈 배열을 저장할 수 있어야 한다', async () => {
@@ -160,23 +166,28 @@ describe('ApiStorageService', () => {
         status: 200,
         json: vi.fn().mockResolvedValue({ success: true }),
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
       await apiStorageService.saveTodos([]);
 
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/api/todos', expect.objectContaining({
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify([]),
-      }));
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:3000/api/todos',
+        expect.objectContaining({
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify([]),
+        })
+      );
     });
 
     it('네트워크 에러를 처리해야 한다', async () => {
       vi.mocked(fetch).mockRejectedValue(new Error('Network error'));
 
-      await expect(apiStorageService.saveTodos(mockTodos)).rejects.toThrow(StorageError);
+      await expect(apiStorageService.saveTodos(mockTodos)).rejects.toThrow(
+        StorageError
+      );
     });
 
     it('서버 에러를 처리해야 한다', async () => {
@@ -185,9 +196,11 @@ describe('ApiStorageService', () => {
         status: 500,
         statusText: 'Internal Server Error',
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
-      await expect(apiStorageService.saveTodos(mockTodos)).rejects.toThrow(StorageError);
+      await expect(apiStorageService.saveTodos(mockTodos)).rejects.toThrow(
+        StorageError
+      );
     });
   });
 
@@ -198,22 +211,27 @@ describe('ApiStorageService', () => {
         status: 200,
         json: vi.fn().mockResolvedValue({ success: true }),
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
       await apiStorageService.clearTodos();
 
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/api/todos', expect.objectContaining({
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }));
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:3000/api/todos',
+        expect.objectContaining({
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+      );
     });
 
     it('네트워크 에러를 처리해야 한다', async () => {
       vi.mocked(fetch).mockRejectedValue(new Error('Network error'));
 
-      await expect(apiStorageService.clearTodos()).rejects.toThrow(StorageError);
+      await expect(apiStorageService.clearTodos()).rejects.toThrow(
+        StorageError
+      );
     });
 
     it('서버 에러를 처리해야 한다', async () => {
@@ -222,9 +240,11 @@ describe('ApiStorageService', () => {
         status: 500,
         statusText: 'Internal Server Error',
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
-      await expect(apiStorageService.clearTodos()).rejects.toThrow(StorageError);
+      await expect(apiStorageService.clearTodos()).rejects.toThrow(
+        StorageError
+      );
     });
   });
 
@@ -238,17 +258,20 @@ describe('ApiStorageService', () => {
         status: 200,
         json: vi.fn().mockResolvedValue(mockTodos),
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
       await apiStorageService.getTodos();
 
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/api/todos', expect.objectContaining({
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      }));
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:3000/api/todos',
+        expect.objectContaining({
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        })
+      );
     });
 
     it('인증 토큰을 제거할 수 있어야 한다', async () => {
@@ -260,16 +283,19 @@ describe('ApiStorageService', () => {
         status: 200,
         json: vi.fn().mockResolvedValue(mockTodos),
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
       await apiStorageService.getTodos();
 
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/api/todos', expect.objectContaining({
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }));
+      expect(fetch).toHaveBeenCalledWith(
+        'http://localhost:3000/api/todos',
+        expect.objectContaining({
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+      );
     });
   });
 
@@ -280,7 +306,7 @@ describe('ApiStorageService', () => {
       });
 
       // fetch가 AbortError를 던지도록 모킹
-      vi.mocked(fetch).mockImplementation(() => 
+      vi.mocked(fetch).mockImplementation(() =>
         Promise.reject(new Error('The operation was aborted'))
       );
 
@@ -305,7 +331,7 @@ describe('ApiStorageService', () => {
           ok: true,
           status: 200,
           json: vi.fn().mockResolvedValue(mockTodos),
-        } as any);
+        } as unknown as Response);
       });
 
       const result = await service.getTodos();
@@ -323,7 +349,9 @@ describe('ApiStorageService', () => {
         await apiStorageService.getTodos();
       } catch (error) {
         expect(error).toBeInstanceOf(StorageError);
-        expect((error as StorageError).code).toBe(STORAGE_ERROR_CODES.NETWORK_ERROR);
+        expect((error as StorageError).code).toBe(
+          STORAGE_ERROR_CODES.NETWORK_ERROR
+        );
       }
     });
 
@@ -333,13 +361,15 @@ describe('ApiStorageService', () => {
         status: 403,
         statusText: 'Forbidden',
       };
-      vi.mocked(fetch).mockResolvedValue(mockResponse as any);
+      vi.mocked(fetch).mockResolvedValue(mockResponse as unknown as Response);
 
       try {
         await apiStorageService.getTodos();
       } catch (error) {
         expect(error).toBeInstanceOf(StorageError);
-        expect((error as StorageError).code).toBe(STORAGE_ERROR_CODES.PERMISSION_ERROR);
+        expect((error as StorageError).code).toBe(
+          STORAGE_ERROR_CODES.PERMISSION_ERROR
+        );
       }
     });
   });

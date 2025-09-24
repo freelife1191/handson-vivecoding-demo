@@ -53,12 +53,12 @@
   - [x] 데이터 지속성 및 동기화 로직 구현
   - **커밋**: "스토리지 전략 구현 (TDD)"
 
-- [ ] **2.4 Todo 관련 커스텀 훅**
-  - [ ] useTodoState 훅 테스트 작성
-  - [ ] useTodoState 훅 구현
-  - [ ] useTodoActions 훅 테스트 작성
-  - [ ] useTodoActions 훅 구현
-  - [ ] useTodoFilter 훅 테스트 작성 및 구현
+- [x] **2.4 Todo 관련 커스텀 훅**
+  - [x] useTodoState 훅 테스트 작성
+  - [x] useTodoState 훅 구현
+  - [x] useTodoActions 훅 테스트 작성
+  - [x] useTodoActions 훅 구현
+  - [x] useTodoFilter 훅 테스트 작성 및 구현
   - **커밋**: "Todo 커스텀 훅 구현 (TDD)"
 
 ## 3단계: 프론트엔드 UI 컴포넌트 구현 (Mantine 기반)

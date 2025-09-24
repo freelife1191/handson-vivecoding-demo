@@ -1,14 +1,13 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import type { Todo } from '../../types';
 import { StorageManager } from '../StorageManager';
-import { LocalStorageService } from '../LocalStorageService';
-import { ApiStorageService } from '../ApiStorageService';
 import { StorageError, STORAGE_ERROR_CODES } from '../StorageService';
+import type { StorageService, ExtendedStorageService } from '../StorageService';
 
 describe('StorageManager', () => {
   let storageManager: StorageManager;
-  let mockLocalStorage: LocalStorageService;
-  let mockApiStorage: ApiStorageService;
+  let mockLocalStorage: StorageService;
+  let mockApiStorage: ExtendedStorageService;
   let mockTodos: Todo[];
   let mockDate: Date;
 
@@ -33,7 +32,7 @@ describe('StorageManager', () => {
       saveTodos: vi.fn(),
       clearTodos: vi.fn(),
       isAvailable: vi.fn().mockReturnValue(true),
-    } as any;
+    } as unknown as StorageService;
 
     mockApiStorage = {
       getTodos: vi.fn(),
@@ -46,7 +45,7 @@ describe('StorageManager', () => {
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
       sync: vi.fn(),
-    } as any;
+    } as unknown as ExtendedStorageService;
 
     storageManager = new StorageManager(mockLocalStorage, mockApiStorage);
   });
@@ -115,7 +114,9 @@ describe('StorageManager', () => {
     });
 
     it('현재 전략이 실패하면 대체 전략을 시도해야 한다', async () => {
-      vi.mocked(mockLocalStorage.getTodos).mockRejectedValue(new Error('Local storage error'));
+      vi.mocked(mockLocalStorage.getTodos).mockRejectedValue(
+        new Error('Local storage error')
+      );
       vi.mocked(mockApiStorage.getTodos).mockResolvedValue(mockTodos);
 
       const result = await storageManager.getTodos();
@@ -125,8 +126,12 @@ describe('StorageManager', () => {
     });
 
     it('모든 전략이 실패하면 에러를 발생시켜야 한다', async () => {
-      vi.mocked(mockLocalStorage.getTodos).mockRejectedValue(new Error('Local storage error'));
-      vi.mocked(mockApiStorage.getTodos).mockRejectedValue(new Error('API error'));
+      vi.mocked(mockLocalStorage.getTodos).mockRejectedValue(
+        new Error('Local storage error')
+      );
+      vi.mocked(mockApiStorage.getTodos).mockRejectedValue(
+        new Error('API error')
+      );
 
       await expect(storageManager.getTodos()).rejects.toThrow();
     });
@@ -152,7 +157,9 @@ describe('StorageManager', () => {
     });
 
     it('현재 전략이 실패하면 대체 전략을 시도해야 한다', async () => {
-      vi.mocked(mockLocalStorage.saveTodos).mockRejectedValue(new Error('Local storage error'));
+      vi.mocked(mockLocalStorage.saveTodos).mockRejectedValue(
+        new Error('Local storage error')
+      );
       vi.mocked(mockApiStorage.saveTodos).mockResolvedValue(undefined);
 
       await storageManager.saveTodos(mockTodos);
@@ -161,8 +168,12 @@ describe('StorageManager', () => {
     });
 
     it('모든 전략이 실패하면 에러를 발생시켜야 한다', async () => {
-      vi.mocked(mockLocalStorage.saveTodos).mockRejectedValue(new Error('Local storage error'));
-      vi.mocked(mockApiStorage.saveTodos).mockRejectedValue(new Error('API error'));
+      vi.mocked(mockLocalStorage.saveTodos).mockRejectedValue(
+        new Error('Local storage error')
+      );
+      vi.mocked(mockApiStorage.saveTodos).mockRejectedValue(
+        new Error('API error')
+      );
 
       await expect(storageManager.saveTodos(mockTodos)).rejects.toThrow();
     });
@@ -191,7 +202,9 @@ describe('StorageManager', () => {
   describe('자동 전환', () => {
     it('자동 전환이 활성화되면 실패 시 자동으로 전환해야 한다', async () => {
       storageManager.setAutoSwitch(true);
-      vi.mocked(mockLocalStorage.getTodos).mockRejectedValue(new Error('Local storage error'));
+      vi.mocked(mockLocalStorage.getTodos).mockRejectedValue(
+        new Error('Local storage error')
+      );
       vi.mocked(mockApiStorage.getTodos).mockResolvedValue(mockTodos);
 
       const result = await storageManager.getTodos();
@@ -202,9 +215,13 @@ describe('StorageManager', () => {
 
     it('자동 전환이 비활성화되면 실패 시 전환하지 않아야 한다', async () => {
       storageManager.setAutoSwitch(false);
-      vi.mocked(mockLocalStorage.getTodos).mockRejectedValue(new Error('Local storage error'));
+      vi.mocked(mockLocalStorage.getTodos).mockRejectedValue(
+        new Error('Local storage error')
+      );
 
-      await expect(storageManager.getTodos()).rejects.toThrow('Local storage error');
+      await expect(storageManager.getTodos()).rejects.toThrow(
+        'Local storage error'
+      );
       expect(storageManager.getCurrentStrategy()).toBe('local');
     });
   });
@@ -214,13 +231,17 @@ describe('StorageManager', () => {
       const token = 'bearer-token-123';
       storageManager.setAuthToken(token);
 
-      expect(mockApiStorage.setAuthToken).toHaveBeenCalledWith(token);
+      expect(
+        (mockApiStorage as ExtendedStorageService).setAuthToken
+      ).toHaveBeenCalledWith(token);
     });
 
     it('API 스토리지에서 인증 토큰을 제거할 수 있어야 한다', () => {
       storageManager.clearAuthToken();
 
-      expect(mockApiStorage.clearAuthToken).toHaveBeenCalledTimes(1);
+      expect(
+        (mockApiStorage as ExtendedStorageService).clearAuthToken
+      ).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -231,7 +252,7 @@ describe('StorageManager', () => {
 
     it('사용 가능한 전략 목록을 반환해야 한다', () => {
       const availableStrategies = storageManager.getAvailableStrategies();
-      
+
       expect(availableStrategies).toContain('local');
       expect(availableStrategies).toContain('api');
     });
@@ -248,8 +269,8 @@ describe('StorageManager', () => {
         'Network error',
         STORAGE_ERROR_CODES.NETWORK_ERROR
       );
-      mockApiStorage.getTodos.mockRejectedValue(networkError);
-      mockLocalStorage.getTodos.mockResolvedValue(mockTodos);
+      vi.mocked(mockApiStorage.getTodos).mockRejectedValue(networkError);
+      vi.mocked(mockLocalStorage.getTodos).mockResolvedValue(mockTodos);
 
       await storageManager.switchToApi();
       storageManager.setAutoSwitch(false); // 자동 전환 비활성화
@@ -261,12 +282,14 @@ describe('StorageManager', () => {
         'Permission denied',
         STORAGE_ERROR_CODES.PERMISSION_ERROR
       );
-      mockApiStorage.saveTodos.mockRejectedValue(permissionError);
-      mockLocalStorage.saveTodos.mockResolvedValue(undefined);
+      vi.mocked(mockApiStorage.saveTodos).mockRejectedValue(permissionError);
+      vi.mocked(mockLocalStorage.saveTodos).mockResolvedValue(undefined);
 
       await storageManager.switchToApi();
       storageManager.setAutoSwitch(false); // 자동 전환 비활성화
-      await expect(storageManager.saveTodos(mockTodos)).rejects.toThrow(StorageError);
+      await expect(storageManager.saveTodos(mockTodos)).rejects.toThrow(
+        StorageError
+      );
     });
   });
 

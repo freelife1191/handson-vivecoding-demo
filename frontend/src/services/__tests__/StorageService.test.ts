@@ -70,7 +70,9 @@ describe('StorageService 인터페이스', () => {
       const error = new Error('Storage error');
       vi.mocked(mockStorageService.getTodos).mockRejectedValue(error);
 
-      await expect(mockStorageService.getTodos()).rejects.toThrow('Storage error');
+      await expect(mockStorageService.getTodos()).rejects.toThrow(
+        'Storage error'
+      );
     });
   });
 
@@ -104,7 +106,9 @@ describe('StorageService 인터페이스', () => {
       const error = new Error('Save error');
       vi.mocked(mockStorageService.saveTodos).mockRejectedValue(error);
 
-      await expect(mockStorageService.saveTodos(mockTodos)).rejects.toThrow('Save error');
+      await expect(mockStorageService.saveTodos(mockTodos)).rejects.toThrow(
+        'Save error'
+      );
     });
   });
 
@@ -129,7 +133,9 @@ describe('StorageService 인터페이스', () => {
       const error = new Error('Clear error');
       vi.mocked(mockStorageService.clearTodos).mockRejectedValue(error);
 
-      await expect(mockStorageService.clearTodos()).rejects.toThrow('Clear error');
+      await expect(mockStorageService.clearTodos()).rejects.toThrow(
+        'Clear error'
+      );
     });
   });
 
@@ -191,21 +197,29 @@ describe('StorageService 인터페이스', () => {
       const networkError = new Error('Network error');
       vi.mocked(mockStorageService.getTodos).mockRejectedValue(networkError);
 
-      await expect(mockStorageService.getTodos()).rejects.toThrow('Network error');
+      await expect(mockStorageService.getTodos()).rejects.toThrow(
+        'Network error'
+      );
     });
 
     it('권한 에러를 처리할 수 있어야 한다', async () => {
       const permissionError = new Error('Permission denied');
-      vi.mocked(mockStorageService.saveTodos).mockRejectedValue(permissionError);
+      vi.mocked(mockStorageService.saveTodos).mockRejectedValue(
+        permissionError
+      );
 
-      await expect(mockStorageService.saveTodos(mockTodos)).rejects.toThrow('Permission denied');
+      await expect(mockStorageService.saveTodos(mockTodos)).rejects.toThrow(
+        'Permission denied'
+      );
     });
 
     it('저장 공간 부족 에러를 처리할 수 있어야 한다', async () => {
       const quotaError = new Error('Quota exceeded');
       vi.mocked(mockStorageService.saveTodos).mockRejectedValue(quotaError);
 
-      await expect(mockStorageService.saveTodos(mockTodos)).rejects.toThrow('Quota exceeded');
+      await expect(mockStorageService.saveTodos(mockTodos)).rejects.toThrow(
+        'Quota exceeded'
+      );
     });
   });
 });
