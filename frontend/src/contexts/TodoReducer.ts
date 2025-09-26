@@ -1,6 +1,6 @@
 import type { Todo } from '../types';
 import type { TodoAction } from './TodoAction';
-import { createTodo, toggleTodoStatus } from '../models/Todo.js';
+import { createTodo, toggleTodoStatus } from '../models/Todo';
 
 /**
  * Todo 상태를 관리하는 리듀서 함수

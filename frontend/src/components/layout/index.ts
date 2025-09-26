@@ -1,2 +1,4 @@
 // 레이아웃 컴포넌트 내보내기
-// TODO: 레이아웃 컴포넌트들을 여기에 추가
+export { Header } from './Header';
+export { Footer } from './Footer';
+export { Layout } from './Layout';

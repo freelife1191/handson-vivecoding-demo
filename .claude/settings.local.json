@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//usr/local/bin/**)",
+      "Bash(ccusage)",
+      "WebFetch(domain:github.com)",
+      "Bash(pipx install:*)",
+      "Bash(SuperClaude install)",
+      "Bash(SuperClaude install:*)",
+      "Read(//Users/freelife/.claude/**)",
+      "Read(//Users/freelife/vive/study/handson-vivecoding-demo/docs/**)",
+      "Read(//Users/freelife/vive/study/handson-vivecoding-demo/**)",
+      "Bash(npm run build:*)",
+      "Bash(npm run test:*)",
+      "mcp__magic__21st_magic_component_builder",
+      "Bash(npm test:*)",
+      "Bash(npm run dev:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_resize",
+      "mcp__playwright__browser_close"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "playwright"
+  ]
+}

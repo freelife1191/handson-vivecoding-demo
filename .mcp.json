@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    }
+  },
+  "ccusage": {
+    "command": "npx",
+    "args": ["ccusage@latest", "mcp", "--mode", "calculate"],
+    "env": {
+      "CLAUDE_CONFIG_DIR": "/Users/freelife/Library/Application Support/Claude"
+    }
+  },
+  "context7": {
+    "type": "stdio",
+    "command": "npx",
+    "args": ["-y", "@upstash/context7-mcp"]
+  },
+  "serena": {
+      "command": "uvx",
+      "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server"]
+  },
+  "chrome-devtools": {
+    "command": "npx",
+    "args": ["chrome-devtools-mcp@latest"]
+  }
+}

@@ -1,2 +1,4 @@
 // 공통 컴포넌트 내보내기
-// TODO: 공통 컴포넌트들을 여기에 추가
+export { ErrorBoundary } from './ErrorBoundary';
+export { ErrorTestButton } from './ErrorTestButton';
+export { ErrorTestComponent } from './ErrorTestComponent';

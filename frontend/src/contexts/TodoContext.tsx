@@ -8,7 +8,7 @@ import React, {
 import type { ReactNode } from 'react';
 import type { Todo, CreateTodoInput } from '../types';
 import { todoReducer } from './TodoReducer';
-import { createTodo } from '../models/Todo.js';
+import { createTodo } from '../models/Todo';
 import { STORAGE_KEYS } from '../types';
 
 /**
