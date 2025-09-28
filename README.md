@@ -203,7 +203,10 @@ npm run test:all      # 모든 패키지 테스트
 
 ### 프론트엔드 배포 (GitHub Pages)
 ```bash
-# 로컬 배포 스크립트 사용 (GitHub Actions 사용량 절약)
+# GitHub Actions를 통한 자동 배포
+git push origin main  # main 브랜치 푸시 시 자동 배포
+
+# 로컬 배포 스크립트 (개발/테스트용)
 cd frontend
 npm run deploy        # 프로덕션 배포
 npm run deploy:dev    # 개발 환경 배포
