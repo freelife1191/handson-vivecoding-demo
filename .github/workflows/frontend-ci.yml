@@ -100,53 +100,9 @@ jobs:
         echo "## 📝 참고사항" >> $GITHUB_STEP_SUMMARY
         echo "- E2E 테스트는 로컬 Git Push 시점에 실행됩니다" >> $GITHUB_STEP_SUMMARY
 
-  # 배포 (main 브랜치에서만)
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [test-and-build]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Download build artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: frontend-build
-        path: frontend/dist/
-        
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: frontend/dist/
-        cname: # 도메인이 있다면 여기에 추가
-        
-    - name: Wait for deployment
-      run: sleep 30
-      
-    - name: Smoke test after deployment
-      run: |
-        # GitHub Pages URL 구성
-        if [ -n "${{ secrets.CUSTOM_DOMAIN }}" ]; then
-          DEPLOY_URL="https://${{ secrets.CUSTOM_DOMAIN }}"
-        else
-          DEPLOY_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
-        fi
-        
-        echo "Testing deployed site: $DEPLOY_URL"
-        
-        # 기본 페이지 로드 테스트
-        curl -f -s -o /dev/null "$DEPLOY_URL" || {
-          echo "❌ Smoke test failed: Site not accessible"
-          exit 1
-        }
-        
-        # HTML 내용 확인
-        curl -s "$DEPLOY_URL" | grep -q "TODO" || {
-          echo "❌ Smoke test failed: Expected content not found"
-          exit 1
-        }
-        
-        echo "✅ Smoke test passed: Site is accessible and contains expected content"
+  # 배포는 로컬 스크립트를 사용합니다
+  # GitHub Actions 무료 플랜 사용량 절약을 위해 자동 배포 제거
+  # 배포는 다음 명령어로 로컬에서 실행하세요:
+  # npm run deploy (프로덕션)
+  # npm run deploy:dev (개발)
+  # npm run deploy:staging (스테이징)

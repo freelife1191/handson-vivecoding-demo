@@ -203,9 +203,11 @@ npm run test:all      # 모든 패키지 테스트
 
 ### 프론트엔드 배포 (GitHub Pages)
 ```bash
+# 로컬 배포 스크립트 사용 (GitHub Actions 사용량 절약)
 cd frontend
-npm run build
-npm run deploy
+npm run deploy        # 프로덕션 배포
+npm run deploy:dev    # 개발 환경 배포
+npm run deploy:staging # 스테이징 환경 배포
 ```
 
 ### 백엔드 배포 (AWS)

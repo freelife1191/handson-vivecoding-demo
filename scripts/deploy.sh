@@ -169,35 +169,57 @@ fi
 BUILD_SIZE=$(du -sh dist | cut -f1)
 log_info "📊 빌드 크기: $BUILD_SIZE"
 
-# 13. GitHub Actions를 통한 배포 (CI 환경에서만)
-if [ "$CI" = "true" ]; then
-    log_info "🔧 CI 환경에서 GitHub Actions를 통한 배포"
-    log_info "   GitHub Actions 워크플로우가 자동으로 배포를 처리합니다."
-else
-    log_info "💻 로컬 환경에서 배포"
-    log_warning "⚠️  로컬에서 직접 배포하는 경우 GitHub Actions를 사용하는 것을 권장합니다."
-    log_info "   git push origin $BRANCH를 실행하여 GitHub Actions를 통한 배포를 진행하세요."
+# 13. 로컬에서 직접 GitHub Pages 배포
+log_info "💻 로컬에서 직접 GitHub Pages 배포"
+log_info "   GitHub Actions 사용량 절약을 위해 로컬 배포를 사용합니다."
+
+# GitHub Pages 배포를 위한 gh-pages 브랜치 생성 및 배포
+log_info "📦 GitHub Pages 배포 준비"
+if ! command -v git &> /dev/null; then
+    log_error "❌ Git이 설치되지 않았습니다."
+    exit 1
 fi
 
-# 14. 배포 후 상태 확인 (CI 환경에서만)
-if [ "$CI" = "true" ]; then
-    log_info "🔍 배포 후 상태 확인"
-    sleep 30  # 배포 완료 대기
+# gh-pages 브랜치로 배포
+log_info "🌿 gh-pages 브랜치로 배포"
+git subtree push --prefix=frontend/dist origin gh-pages
+if [ $? -ne 0 ]; then
+    log_warning "⚠️  gh-pages 브랜치가 없거나 푸시에 실패했습니다."
+    log_info "   새로운 gh-pages 브랜치를 생성합니다..."
     
-    # 배포된 사이트 접근성 확인
-    if curl -f -s -o /dev/null "$DEPLOY_URL"; then
-        log_success "✅ 배포된 사이트에 접근 가능: $DEPLOY_URL"
-    else
-        log_error "❌ 배포된 사이트에 접근할 수 없습니다: $DEPLOY_URL"
+    # gh-pages 브랜치가 없는 경우 새로 생성
+    git checkout --orphan gh-pages
+    git rm -rf .
+    cp -r frontend/dist/* .
+    git add .
+    git commit -m "Deploy to GitHub Pages - $ENVIRONMENT environment"
+    git push origin gh-pages
+    git checkout "$CURRENT_BRANCH"
+    
+    if [ $? -ne 0 ]; then
+        log_error "❌ GitHub Pages 배포 실패"
         exit 1
     fi
-    
-    # HTML 내용 확인
-    if curl -s "$DEPLOY_URL" | grep -q "TODO"; then
-        log_success "✅ 배포된 사이트에 예상된 내용이 포함되어 있습니다."
-    else
-        log_warning "⚠️  배포된 사이트에 예상된 내용이 없을 수 있습니다."
-    fi
+fi
+
+# 14. 배포 후 상태 확인
+log_info "🔍 배포 후 상태 확인"
+sleep 10  # 배포 완료 대기
+
+# 배포된 사이트 접근성 확인
+if curl -f -s -o /dev/null "$DEPLOY_URL"; then
+    log_success "✅ 배포된 사이트에 접근 가능: $DEPLOY_URL"
+else
+    log_warning "⚠️  배포된 사이트에 접근할 수 없습니다: $DEPLOY_URL"
+    log_info "   GitHub Pages 배포가 완료되는 데 몇 분이 걸릴 수 있습니다."
+fi
+
+# HTML 내용 확인
+if curl -s "$DEPLOY_URL" | grep -q "TODO"; then
+    log_success "✅ 배포된 사이트에 예상된 내용이 포함되어 있습니다."
+else
+    log_warning "⚠️  배포된 사이트에 예상된 내용이 없을 수 있습니다."
+    log_info "   GitHub Pages 배포가 완료되는 데 몇 분이 걸릴 수 있습니다."
 fi
 
 # 배포 완료
@@ -206,9 +228,7 @@ log_info "📊 배포 요약:"
 log_info "   - 환경: $ENVIRONMENT"
 log_info "   - 브랜치: $BRANCH"
 log_info "   - 빌드 크기: $BUILD_SIZE"
-if [ "$CI" = "true" ]; then
-    log_info "   - 배포 URL: $DEPLOY_URL"
-fi
+log_info "   - 배포 URL: $DEPLOY_URL"
 log_info "📅 배포 완료 시간: $(date '+%Y-%m-%d %H:%M:%S')"
 
 # 배포 알림 (선택사항)
