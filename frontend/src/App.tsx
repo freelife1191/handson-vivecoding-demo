@@ -19,3 +19,4 @@ function App() {
 }
 
 export default App;
+// Git Hook 테스트용 주석
