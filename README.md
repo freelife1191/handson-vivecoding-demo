@@ -248,6 +248,13 @@ npm run deploy:all
   2. **🏗️ Build**: TypeScript 컴파일 및 Vite 빌드 검증
   3. **🧪 Test**: Vitest를 통한 테스트 실행 및 통과 확인
 
+#### 🎭 Pre-push Hook 기능
+- **위치**: 루트 `.husky/pre-push` (모노레포 전체 관리)
+- **스마트 감지**: frontend 디렉토리 변경이 포함된 push 시에만 실행
+- **자동 실행 순서**:
+  1. **🏗️ Build**: TypeScript 컴파일 및 Vite 빌드 검증
+  2. **🎭 E2E Test**: Playwright를 통한 E2E 테스트 실행 및 통과 확인
+
 #### 📝 사용 예시
 ```bash
 # frontend 디렉토리 변경 시
@@ -255,10 +262,16 @@ git add frontend/src/components/MyComponent.tsx
 git commit -m "feat: 새로운 컴포넌트 추가"
 # → 자동으로 lint fix, build, test 실행
 
+git push origin main
+# → frontend 변경이 포함된 push이므로 E2E 테스트 자동 실행
+
 # 다른 디렉토리 변경 시
 git add docs/README.md
 git commit -m "docs: 문서 업데이트"
 # → frontend 변경 없으므로 hook 실행 안됨
+
+git push origin main
+# → frontend 변경 없으므로 E2E 테스트 실행 안됨
 ```
 
 #### 🏗️ 모노레포 관리 장점
@@ -269,9 +282,11 @@ git commit -m "docs: 문서 업데이트"
 
 #### ✅ 장점
 - **코드 품질 보장**: 커밋 전 자동 검증으로 품질 저하 방지
+- **E2E 테스트 보장**: Push 전 자동 E2E 검증으로 사용자 경험 품질 보장
 - **개발 효율성**: 수동 검증 과정 생략으로 개발 속도 향상
 - **일관성 유지**: 팀 전체가 동일한 코드 품질 기준 적용
 - **선택적 실행**: frontend 변경 시에만 실행되어 불필요한 오버헤드 방지
+- **로컬 E2E 테스트**: GitHub Actions 대신 로컬에서 E2E 테스트 실행으로 빠른 피드백
 
 ### 테스트 전략
 - **프론트엔드**: UI 구현 시 실행 코드 우선, 코어 비즈니스 로직만 TDD

@@ -125,7 +125,7 @@
 - [x] **5.3 E2E 테스트 자동화 (Playwright)**
   - [x] Playwright 설치 및 설정
   - [x] 주요 사용자 플로우 E2E 테스트 작성
-    - [x] Todo CRUD 전체 플로우 테스트
+    - [x] Todo CRUD 전체 플로우 테스트 (17개 테스트 모두 통과)
     - [x] 필터링 및 정렬 기능 E2E 테스트
     - [x] 반응형 디자인 테스트 (모바일/데스크톱)
     - [x] Tab Bar 반응형 동작 테스트
@@ -133,7 +133,7 @@
   - [x] 테스트 결과 보고서 설정 (HTML 리포트)
   - [x] GitHub Actions 워크플로우에 Playwright 테스트 통합
   - [x] 테스트 결과 아티팩트 업로드 및 배지 설정
-  - **커밋**: "E2E 테스트 자동화 (Playwright) 구현"
+  - **커밋**: "E2E 테스트 자동화 (Playwright) 구현 완료 - 17개 테스트 모두 통과"
 
 - [x] **5.4 Git Hook 자동화 검증**
   - [x] Pre-commit Hook 동작 확인 (lint fix, build, test)
@@ -278,9 +278,13 @@
 
 ### Git Hook 자동화
 - **Pre-commit Hook**: 루트 `.husky/pre-commit`에서 모노레포 전체 관리
-- **실행 조건**: frontend 디렉토리 변경 시에만 실행
-- **자동 실행 순서**: Lint Fix → Build → Test
-- **코드 품질 보장**: 커밋 전 자동 검증으로 품질 저하 방지
+  - **실행 조건**: frontend 디렉토리 변경 시에만 실행
+  - **자동 실행 순서**: Lint Fix → Build → Test
+  - **코드 품질 보장**: 커밋 전 자동 검증으로 품질 저하 방지
+- **Pre-push Hook**: 루트 `.husky/pre-push`에서 E2E 테스트 자동 실행
+  - **실행 조건**: frontend 디렉토리 변경이 포함된 push 시에만 실행
+  - **자동 실행 순서**: Build → E2E Tests (Playwright)
+  - **E2E 테스트 보장**: Push 전 자동 E2E 검증으로 사용자 경험 품질 보장
 
 ### 개발 흐름 (requirements.md 마일스톤 우선순위 반영)
 1. **1-5단계**: 프론트엔드 완전 독립 개발 (로컬 스토리지 기반)
