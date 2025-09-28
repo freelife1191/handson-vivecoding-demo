@@ -131,21 +131,14 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: frontend-build
-        path: ./dist/
-
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-      with:
-        enablement: true
-
-    - name: Upload to GitHub Pages
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./dist/
+        path: frontend/dist/
 
     - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: frontend/dist/
+        force_orphan: true
         
     - name: Wait for deployment
       run: sleep 30
