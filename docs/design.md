@@ -353,10 +353,74 @@ git commit -m "docs: 문서 업데이트"
 
 ## 6. 배포 전략
 
-### 6.1 프론트엔드 배포
+### 6.1 프론트엔드 배포 (GitHub Pages)
 
-1. GitHub Actions를 사용한 CI/CD 파이프라인 구성
-2. GitHub Pages에 정적 웹 사이트 배포
+#### 6.1.1 GitHub Pages 설정
+1. **Repository Settings 구성**
+   - Settings > Pages > Source: "GitHub Actions" 선택
+   - gh-pages 브랜치 자동 생성 및 관리
+   - Custom domain 설정 (선택사항)
+
+2. **GitHub Actions 권한 설정**
+   - Settings > Actions > General > Workflow permissions
+   - "Read and write permissions" 선택
+   - "Allow GitHub Actions to create and approve pull requests" 체크
+   - 이 설정이 없으면 배포 시 권한 오류 발생
+
+#### 6.1.2 Vite 빌드 설정
+```typescript
+// vite.config.ts
+export default defineConfig({
+  plugins: [react()],
+  base: '/repository-name/', // GitHub Pages 하위 경로 지원
+});
+```
+
+#### 6.1.3 CI/CD 파이프라인 구성
+```yaml
+# .github/workflows/frontend-ci.yml
+name: Frontend CI/CD
+on:
+  push:
+    branches: [ main, master ]
+    paths: ['frontend/**']
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm install && npm run test && npm run build
+      - uses: actions/upload-artifact@v4
+
+  deploy:
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: frontend/dist/
+          force_orphan: true
+```
+
+#### 6.1.4 배포 검증
+1. **Smoke Test 자동화**
+   - 배포 후 기본 페이지 로드 테스트
+   - 자산 파일 접근성 검증
+   - HTML 내용 검증
+
+2. **E2E 테스트 통합**
+   - Playwright를 통한 전체 사용자 플로우 테스트
+   - 크로스 브라우저 테스트 (Chrome, Firefox, Safari)
+   - 반응형 디자인 테스트
 
 ### 6.2 백엔드 배포
 
@@ -368,6 +432,23 @@ git commit -m "docs: 문서 업데이트"
 1. **개발 환경**: 로컬 개발 및 테스트
 2. **스테이징 환경**: 테스트 및 QA
 3. **프로덕션 환경**: 최종 사용자용
+
+### 6.4 배포 문제 해결 가이드
+
+#### 6.4.1 자산 파일 404 에러
+**문제**: JavaScript/CSS 파일이 404 에러로 로드되지 않음
+**원인**: Vite base 경로 설정 누락
+**해결**: `vite.config.ts`에 `base: '/repository-name/'` 설정
+
+#### 6.4.2 GitHub Actions 권한 오류
+**문제**: "Resource not accessible by integration" 오류
+**원인**: Workflow permissions 설정 부족
+**해결**: Repository Settings > Actions > General에서 권한 설정
+
+#### 6.4.3 배포 지연 문제
+**문제**: 배포 후 즉시 접근 불가
+**원인**: GitHub Pages CDN 캐시 지연
+**해결**: 30초 대기 후 smoke test 실행, 캐시 무효화 파라미터 사용
 
 ## 7. 구현 계획
 

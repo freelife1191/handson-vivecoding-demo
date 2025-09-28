@@ -143,12 +143,26 @@
 
 - [x] **5.5 GitHub Pages 배포 설정**
   - [x] GitHub Pages 설정 및 도메인 구성
+    - [x] Repository Settings > Pages > Source: "GitHub Actions" 선택
+    - [x] gh-pages 브랜치 자동 생성 확인
+  - [x] GitHub Actions 권한 설정 (필수)
+    - [x] Settings > Actions > General > Workflow permissions
+    - [x] "Read and write permissions" 선택
+    - [x] "Allow GitHub Actions to create and approve pull requests" 체크
+  - [x] Vite 빌드 설정 수정
+    - [x] vite.config.ts에 base: '/repository-name/' 설정
+    - [x] GitHub Pages 하위 경로 배포 지원
   - [x] GitHub Actions 워크플로우에 배포 단계 추가
-  - [x] 환경 변수 및 시크릿 설정
-  - [x] 배포 전 빌드 검증 및 테스트 실행
+    - [x] peaceiris/actions-gh-pages@v4 액션 사용
+    - [x] 적절한 permissions 설정 (contents: write, pages: write, id-token: write)
   - [x] 배포 후 smoke test 자동화
-  - [x] GitHub Pages 자동 활성화 및 권한 설정
-  - [x] 배포 워크플로우 최적화 및 테스트 완료
+    - [x] 30초 대기 후 배포 URL 접근 테스트
+    - [x] HTML 내용 검증 (title, expected content)
+    - [x] 자산 파일 접근성 검증
+  - [x] 배포 문제 해결 및 검증
+    - [x] 자산 파일 404 에러 해결 (Vite base 경로 설정)
+    - [x] GitHub Actions 권한 오류 해결
+    - [x] 배포 지연 문제 해결 (캐시 무효화)
   - **커밋**: "GitHub Pages 배포 설정 완료"
 
 - [x] **5.6 배포 자동화 스크립트 작성**
@@ -304,6 +318,76 @@
   - **실행 조건**: frontend 디렉토리 변경이 포함된 push 시에만 실행
   - **자동 실행 순서**: Build → E2E Tests (Playwright)
   - **E2E 테스트 보장**: Push 전 자동 E2E 검증으로 사용자 경험 품질 보장
+
+### GitHub Actions 및 배포 문제 해결 가이드
+
+#### 필수 설정 체크리스트
+1. **GitHub Pages 설정**
+   - [ ] Repository Settings > Pages > Source: "GitHub Actions" 선택
+   - [ ] gh-pages 브랜치 자동 생성 확인
+   - [ ] 배포 URL 확인: `https://username.github.io/repository-name/`
+
+2. **GitHub Actions 권한 설정 (중요!)**
+   - [ ] Settings > Actions > General > Workflow permissions
+   - [ ] "Read and write permissions" 선택
+   - [ ] "Allow GitHub Actions to create and approve pull requests" 체크
+   - [ ] 이 설정이 없으면 "Resource not accessible by integration" 오류 발생
+
+3. **Vite 빌드 설정**
+   - [ ] vite.config.ts에 `base: '/repository-name/'` 설정
+   - [ ] GitHub Pages 하위 경로 배포 지원
+   - [ ] 빌드 후 dist/index.html에서 경로 확인
+
+#### 배포 문제 해결 방법
+1. **자산 파일 404 에러**
+   ```bash
+   # 문제 확인
+   curl -I "https://username.github.io/repository-name/assets/index-xxx.js"
+   
+   # 해결: vite.config.ts 수정
+   export default defineConfig({
+     plugins: [react()],
+     base: '/repository-name/',
+   });
+   ```
+
+2. **GitHub Actions 권한 오류**
+   ```bash
+   # 로그 확인
+   gh run list --limit 5
+   gh run view <run-id>
+   
+   # 해결: Repository Settings에서 권한 설정
+   ```
+
+3. **배포 지연 문제**
+   ```bash
+   # 배포 상태 확인
+   gh api repos/username/repository-name/pages
+   
+   # 해결: 30초 대기 후 smoke test 실행
+   ```
+
+#### gh cli 명령어 모음
+```bash
+# GitHub Actions 실행 목록 확인
+gh run list --limit 10
+
+# 특정 실행 상세 보기
+gh run view <run-id>
+
+# 실행 로그 확인
+gh run view --log <run-id>
+
+# 특정 job 로그 확인
+gh run view --log --job=<job-id>
+
+# GitHub Pages 상태 확인
+gh api repos/username/repository-name/pages
+
+# 배포된 파일 확인
+curl -s "https://username.github.io/repository-name/" | head -20
+```
 
 ### 개발 흐름 (requirements.md 마일스톤 우선순위 반영)
 1. **1-5단계**: 프론트엔드 완전 독립 개발 (로컬 스토리지 기반) ✅ **완료**

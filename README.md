@@ -202,15 +202,64 @@ npm run test:all      # 모든 패키지 테스트
 ## 🚀 배포
 
 ### 프론트엔드 배포 (GitHub Pages)
+
+#### 자동 배포
 ```bash
 # GitHub Actions를 통한 자동 배포
-git push origin main  # main 브랜치 푸시 시 자동 배포
+git push origin master  # master 브랜치 푸시 시 자동 배포
+```
 
-# 로컬 배포 스크립트 (개발/테스트용)
-cd frontend
-npm run deploy        # 프로덕션 배포
-npm run deploy:dev    # 개발 환경 배포
-npm run deploy:staging # 스테이징 환경 배포
+#### 배포 URL
+- **프로덕션**: https://freelife1191.github.io/handson-vivecoding-demo/
+
+#### 배포 설정 가이드
+
+##### 1. GitHub Pages 설정
+```bash
+# Repository Settings에서 설정
+Settings > Pages > Source: "GitHub Actions" 선택
+```
+
+##### 2. GitHub Actions 권한 설정 (필수!)
+```bash
+# Repository Settings에서 설정
+Settings > Actions > General > Workflow permissions
+- "Read and write permissions" 선택
+- "Allow GitHub Actions to create and approve pull requests" 체크
+```
+
+##### 3. Vite 빌드 설정
+```typescript
+// frontend/vite.config.ts
+export default defineConfig({
+  plugins: [react()],
+  base: '/repository-name/', // GitHub Pages 하위 경로 지원
+});
+```
+
+#### 배포 문제 해결
+
+##### 자산 파일 404 에러
+**문제**: JavaScript/CSS 파일이 로드되지 않음
+**해결**: `vite.config.ts`에 `base: '/repository-name/'` 설정
+
+##### GitHub Actions 권한 오류
+**문제**: "Resource not accessible by integration" 오류
+**해결**: Repository Settings > Actions > General에서 권한 설정
+
+##### 배포 상태 확인
+```bash
+# GitHub Actions 실행 목록 확인
+gh run list --limit 5
+
+# 특정 실행 로그 확인
+gh run view <run-id>
+
+# GitHub Pages 상태 확인
+gh api repos/username/repository-name/pages
+
+# 배포된 사이트 확인
+curl -s "https://username.github.io/repository-name/" | head -20
 ```
 
 ### 백엔드 배포 (AWS)

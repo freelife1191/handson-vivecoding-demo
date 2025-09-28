@@ -105,6 +105,23 @@
 3. 성능 모니터링 요구사항이 있나요?
     - 필요 없음
 
+### 5.5 GitHub Pages 배포 요구사항
+1. GitHub Pages 설정 및 권한 구성
+    - GitHub Pages 활성화 (Settings > Pages)
+    - Source: GitHub Actions 선택
+    - gh-pages 브랜치 자동 생성 및 관리
+2. GitHub Actions 권한 설정
+    - Settings > Actions > General > Workflow permissions
+    - "Read and write permissions" 선택
+    - "Allow GitHub Actions to create and approve pull requests" 체크
+3. Vite 빌드 설정
+    - base 경로 설정: `/repository-name/`
+    - GitHub Pages 하위 경로 배포 지원
+4. 배포 검증
+    - Smoke test 자동화
+    - E2E 테스트 통합
+    - 배포 후 기능 검증
+
 
 ## 6. 제약 사항
 - 브라우저 호환성: 최신 버전의 Chrome, Firefox, Safari, Edge 지원
