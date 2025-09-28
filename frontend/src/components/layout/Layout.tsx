@@ -1,5 +1,7 @@
-import { Box, useMantineColorScheme } from '@mantine/core';
+import { Box, useMantineColorScheme, useMantineTheme } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { Header } from './Header';
+import { TabBar } from './TabBar';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -14,6 +16,8 @@ interface LayoutProps {
  */
 export function Layout({ children }: LayoutProps) {
   const { colorScheme } = useMantineColorScheme();
+  const theme = useMantineTheme();
+  const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
   return (
     <Box
@@ -50,14 +54,15 @@ export function Layout({ children }: LayoutProps) {
           width: '100%',
           maxWidth: 'none',
           padding: '16px',
+          paddingBottom: isMobile ? '80px' : '16px', // Tab Bar 공간 확보 (모바일에서만 적용됨)
           backgroundColor: colorScheme === 'dark' ? '#1a1b23' : '#f8f9fa',
         }}
       >
         {children}
       </Box>
+
+      {/* Tab Bar - 모바일에서만 표시 */}
+      <TabBar />
     </Box>
   );
 }
-
-
-

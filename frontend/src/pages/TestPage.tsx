@@ -10,7 +10,9 @@ import { NotFoundPage } from './NotFoundPage';
  * - 개발/테스트 목적으로만 사용
  */
 export function TestPage() {
-  const [currentPage, setCurrentPage] = useState<'todo' | 'settings' | '404'>('todo');
+  const [currentPage, setCurrentPage] = useState<'todo' | 'settings' | '404'>(
+    'todo'
+  );
 
   // 개발 모드에서만 표시
   if (!import.meta.env.DEV) {
@@ -33,7 +35,11 @@ export function TestPage() {
   return (
     <Stack gap="md">
       {/* 페이지 전환 버튼들 */}
-      <Group justify="center" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+      <Group
+        justify="center"
+        p="md"
+        style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}
+      >
         <Button
           variant={currentPage === 'todo' ? 'filled' : 'outline'}
           onClick={() => setCurrentPage('todo')}
@@ -62,5 +68,3 @@ export function TestPage() {
     </Stack>
   );
 }
-
-

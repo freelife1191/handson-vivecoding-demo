@@ -1,14 +1,11 @@
-import {
-  Box,
-  Stack
-} from '@mantine/core';
+import { Box, Stack } from '@mantine/core';
 import { useTodoState, useTodoActions, useTodoFilter } from '../hooks';
 import { TodoProvider } from '../contexts';
-import { 
-  TodoForm, 
-  TodoFilter as TodoFilterComponent, 
-  TodoList, 
-  TodoStats 
+import {
+  TodoForm,
+  TodoFilter as TodoFilterComponent,
+  TodoList,
+  TodoStats,
 } from '../components/todo';
 // import { ErrorTestButton, ErrorTestComponent } from '../components/common';
 import type { CreateTodoInput, TodoFilter as TodoFilterType } from '../types';
@@ -58,9 +55,7 @@ function TodoPageContent() {
         <TodoStats stats={stats} />
 
         {/* 새 할일 추가 폼 */}
-        <TodoForm 
-          onSubmit={handleAddTodo}
-        />
+        <TodoForm onSubmit={handleAddTodo} />
 
         {/* 필터 및 검색 */}
         <TodoFilterComponent

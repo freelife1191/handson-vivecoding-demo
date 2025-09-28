@@ -1,15 +1,20 @@
-import { 
-  Container, 
-  Paper, 
-  Title, 
-  Text, 
-  Switch, 
+import {
+  Container,
+  Paper,
+  Title,
+  Text,
+  Switch,
   Group,
   Stack,
   Divider,
-  useMantineColorScheme 
+  useMantineColorScheme,
 } from '@mantine/core';
-import { IconSettings, IconBell, IconPalette, IconDatabase } from '@tabler/icons-react';
+import {
+  IconSettings,
+  IconBell,
+  IconPalette,
+  IconDatabase,
+} from '@tabler/icons-react';
 
 /**
  * 설정 페이지 컴포넌트
@@ -24,8 +29,8 @@ export function SettingsPage() {
     <Container size="md" py="md">
       <Stack gap="lg">
         {/* 페이지 제목 */}
-        <Title 
-          order={1} 
+        <Title
+          order={1}
           c={colorScheme === 'dark' ? 'white' : 'dark'}
           ta="center"
         >
@@ -45,7 +50,7 @@ export function SettingsPage() {
             <IconPalette size={24} color="#4a90e2" />
             <Title order={3}>테마 설정</Title>
           </Group>
-          
+
           <Group justify="space-between" align="center">
             <div>
               <Text fw={500}>다크 모드</Text>
@@ -74,7 +79,7 @@ export function SettingsPage() {
             <IconBell size={24} color="#fab005" />
             <Title order={3}>알림 설정</Title>
           </Group>
-          
+
           <Stack gap="md">
             <Group justify="space-between" align="center">
               <div>
@@ -85,9 +90,9 @@ export function SettingsPage() {
               </div>
               <Switch size="md" defaultChecked />
             </Group>
-            
+
             <Divider />
-            
+
             <Group justify="space-between" align="center">
               <div>
                 <Text fw={500}>일일 리마인더</Text>
@@ -113,7 +118,7 @@ export function SettingsPage() {
             <IconDatabase size={24} color="#40c057" />
             <Title order={3}>데이터 관리</Title>
           </Group>
-          
+
           <Stack gap="md">
             <Group justify="space-between" align="center">
               <div>
@@ -124,9 +129,9 @@ export function SettingsPage() {
               </div>
               <Switch size="md" defaultChecked />
             </Group>
-            
+
             <Divider />
-            
+
             <Group justify="space-between" align="center">
               <div>
                 <Text fw={500}>데이터 백업</Text>
@@ -152,7 +157,7 @@ export function SettingsPage() {
             <IconSettings size={24} color="#868e96" />
             <Title order={3}>앱 정보</Title>
           </Group>
-          
+
           <Stack gap="xs">
             <Group justify="space-between">
               <Text c="dimmed">버전</Text>
@@ -172,5 +177,3 @@ export function SettingsPage() {
     </Container>
   );
 }
-
-

@@ -1,11 +1,11 @@
-import { 
-  Paper, 
-  TextInput, 
-  Select, 
-  Button, 
-  Group, 
+import {
+  Paper,
+  TextInput,
+  Select,
+  Button,
+  Group,
   Stack,
-  useMantineColorScheme 
+  useMantineColorScheme,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconPlus } from '@tabler/icons-react';
@@ -23,9 +23,13 @@ interface TodoFormProps {
  * - 우선순위 선택
  * - 추가/수정 버튼
  */
-export function TodoForm({ onSubmit, initialValues, isLoading = false }: TodoFormProps) {
+export function TodoForm({
+  onSubmit,
+  initialValues,
+  isLoading = false,
+}: TodoFormProps) {
   const { colorScheme } = useMantineColorScheme();
-  
+
   const form = useForm<CreateTodoInput>({
     initialValues: {
       title: initialValues?.title || '',
@@ -76,7 +80,7 @@ export function TodoForm({ onSubmit, initialValues, isLoading = false }: TodoFor
             {...form.getInputProps('title')}
             disabled={isLoading}
           />
-          
+
           <Group justify="flex-start" align="flex-end" gap="md">
             <Select
               label="우선순위"
@@ -86,7 +90,7 @@ export function TodoForm({ onSubmit, initialValues, isLoading = false }: TodoFor
               {...form.getInputProps('priority')}
               disabled={isLoading}
             />
-            
+
             <Button
               type="submit"
               size="md"

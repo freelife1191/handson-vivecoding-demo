@@ -8,7 +8,9 @@ import { IconBug } from '@tabler/icons-react';
  */
 export function ErrorTestButton() {
   const throwError = () => {
-    throw new Error('테스트용 에러입니다! 에러 바운더리가 정상적으로 작동하고 있습니다.');
+    throw new Error(
+      '테스트용 에러입니다! 에러 바운더리가 정상적으로 작동하고 있습니다.'
+    );
   };
 
   // 개발 모드에서만 표시
@@ -28,5 +30,3 @@ export function ErrorTestButton() {
     </Button>
   );
 }
-
-

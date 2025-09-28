@@ -13,7 +13,7 @@ const theme = createTheme({
   colors: {
     brand: [
       '#e7f5ff',
-      '#d0ebff', 
+      '#d0ebff',
       '#a5d8ff',
       '#74c0fc',
       '#4a90e2', // 메인 브랜드 색상
@@ -21,13 +21,14 @@ const theme = createTheme({
       '#228be6',
       '#1c7ed6',
       '#1971c2',
-      '#1864ab'
+      '#1864ab',
     ],
   },
   /** 기본 색상 */
   primaryColor: 'brand',
   /** 폰트 패밀리 */
-  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
+  fontFamily:
+    'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
   /** 기본 폰트 크기 */
   fontSizes: {
     xs: '0.75rem',
@@ -39,7 +40,7 @@ const theme = createTheme({
   /** 반응형 브레이크포인트 */
   breakpoints: {
     xs: '30em',
-    sm: '48em', 
+    sm: '48em',
     md: '64em',
     lg: '74em',
     xl: '90em',

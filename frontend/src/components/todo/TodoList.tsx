@@ -1,9 +1,9 @@
-import { 
-  Stack, 
-  Text, 
-  Center, 
+import {
+  Stack,
+  Text,
+  Center,
   Loader,
-  useMantineColorScheme 
+  useMantineColorScheme,
 } from '@mantine/core';
 import { IconClipboardList } from '@tabler/icons-react';
 import type { Todo } from '../../types';
@@ -23,7 +23,13 @@ interface TodoListProps {
  * - 빈 상태 및 로딩 상태 처리
  * - 반응형 레이아웃
  */
-export function TodoList({ todos, isLoading, onToggle, onEdit, onDelete }: TodoListProps) {
+export function TodoList({
+  todos,
+  isLoading,
+  onToggle,
+  onEdit,
+  onDelete,
+}: TodoListProps) {
   const { colorScheme } = useMantineColorScheme();
 
   if (isLoading) {
@@ -41,9 +47,9 @@ export function TodoList({ todos, isLoading, onToggle, onEdit, onDelete }: TodoL
     return (
       <Center h={200}>
         <Stack align="center" gap="md">
-          <IconClipboardList 
-            size={48} 
-            color={colorScheme === 'dark' ? '#5c5f66' : '#868e96'} 
+          <IconClipboardList
+            size={48}
+            color={colorScheme === 'dark' ? '#5c5f66' : '#868e96'}
           />
           <Text c="dimmed" size="lg">
             등록된 할일이 없습니다

@@ -1,11 +1,11 @@
-import { 
-  Container, 
-  Paper, 
-  Title, 
-  Text, 
-  Button, 
+import {
+  Container,
+  Paper,
+  Title,
+  Text,
+  Button,
   Group,
-  useMantineColorScheme 
+  useMantineColorScheme,
 } from '@mantine/core';
 import { IconHome, IconArrowLeft, IconSearch } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
@@ -39,9 +39,9 @@ export function NotFoundPage() {
         }}
       >
         <Group justify="center" mb="md">
-          <IconSearch 
-            size={64} 
-            color={colorScheme === 'dark' ? '#868e96' : '#adb5bd'} 
+          <IconSearch
+            size={64}
+            color={colorScheme === 'dark' ? '#868e96' : '#adb5bd'}
           />
         </Group>
 
@@ -87,5 +87,3 @@ export function NotFoundPage() {
     </Container>
   );
 }
-
-

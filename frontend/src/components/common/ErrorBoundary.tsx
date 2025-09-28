@@ -1,13 +1,13 @@
 import { Component } from 'react';
 import type { ErrorInfo, ReactNode } from 'react';
-import { 
-  Container, 
-  Paper, 
-  Title, 
-  Text, 
-  Button, 
+import {
+  Container,
+  Paper,
+  Title,
+  Text,
+  Button,
   Group,
-  useMantineColorScheme 
+  useMantineColorScheme,
 } from '@mantine/core';
 import { IconAlertTriangle, IconRefresh } from '@tabler/icons-react';
 
@@ -62,7 +62,9 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       // 기본 에러 UI
-      return <ErrorFallback error={this.state.error} onReset={this.handleReset} />;
+      return (
+        <ErrorFallback error={this.state.error} onReset={this.handleReset} />
+      );
     }
 
     return this.props.children;
@@ -91,9 +93,9 @@ function ErrorFallback({ error, onReset }: ErrorFallbackProps) {
         }}
       >
         <Group justify="center" mb="md">
-          <IconAlertTriangle 
-            size={48} 
-            color={colorScheme === 'dark' ? '#fa5252' : '#e03131'} 
+          <IconAlertTriangle
+            size={48}
+            color={colorScheme === 'dark' ? '#fa5252' : '#e03131'}
           />
         </Group>
 
@@ -102,7 +104,8 @@ function ErrorFallback({ error, onReset }: ErrorFallbackProps) {
         </Title>
 
         <Text ta="center" c="dimmed" mb="lg">
-          예상치 못한 오류가 발생했습니다. 페이지를 새로고침하거나 잠시 후 다시 시도해주세요.
+          예상치 못한 오류가 발생했습니다. 페이지를 새로고침하거나 잠시 후 다시
+          시도해주세요.
         </Text>
 
         {import.meta.env.DEV && error && (
@@ -122,7 +125,12 @@ function ErrorFallback({ error, onReset }: ErrorFallbackProps) {
               {error.message}
             </Text>
             {error.stack && (
-              <Text size="xs" c="dimmed" style={{ fontFamily: 'monospace' }} mt="xs">
+              <Text
+                size="xs"
+                c="dimmed"
+                style={{ fontFamily: 'monospace' }}
+                mt="xs"
+              >
                 {error.stack}
               </Text>
             )}

@@ -1,12 +1,12 @@
-import { 
-  Paper, 
-  Group, 
-  Text, 
-  Checkbox, 
-  Badge, 
-  ActionIcon, 
+import {
+  Paper,
+  Group,
+  Text,
+  Checkbox,
+  Badge,
+  ActionIcon,
   Menu,
-  useMantineColorScheme 
+  useMantineColorScheme,
 } from '@mantine/core';
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react';
 import type { Todo } from '../../types';
@@ -48,7 +48,7 @@ export function TodoItem({ todo, onToggle, onEdit, onDelete }: TodoItemProps) {
             size="md"
             aria-label={`${todo.title} 완료 상태 토글`}
           />
-          
+
           <div style={{ flex: 1 }}>
             <Text
               size="md"
@@ -62,11 +62,7 @@ export function TodoItem({ todo, onToggle, onEdit, onDelete }: TodoItemProps) {
         </Group>
 
         <Group gap="sm">
-          <Badge
-            color={priorityInfo.color}
-            variant="filled"
-            size="sm"
-          >
+          <Badge color={priorityInfo.color} variant="filled" size="sm">
             {priorityInfo.label}
           </Badge>
 

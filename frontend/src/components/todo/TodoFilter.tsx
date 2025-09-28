@@ -1,10 +1,10 @@
-import { 
-  Paper, 
-  Group, 
-  Select, 
+import {
+  Paper,
+  Group,
+  Select,
   TextInput,
   Stack,
-  useMantineColorScheme 
+  useMantineColorScheme,
 } from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 import type { TodoFilter as TodoFilterType } from '../../types';
@@ -75,7 +75,7 @@ export function TodoFilter({ filter, onFilterChange }: TodoFilterProps) {
           onChange={handleSearchChange}
           size="sm"
         />
-        
+
         {/* 필터 옵션들 - 왼쪽 정렬 */}
         <Group gap="md" align="flex-end" justify="flex-start">
           <Select
@@ -87,7 +87,7 @@ export function TodoFilter({ filter, onFilterChange }: TodoFilterProps) {
             size="sm"
             style={{ minWidth: 120 }}
           />
-          
+
           <Select
             label="우선순위"
             placeholder="우선순위 선택"

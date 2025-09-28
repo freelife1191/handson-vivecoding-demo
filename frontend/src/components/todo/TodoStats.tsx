@@ -1,10 +1,10 @@
-import { 
-  Paper, 
-  Group, 
-  Text, 
+import {
+  Paper,
+  Group,
+  Text,
   Badge,
   Stack,
-  useMantineColorScheme 
+  useMantineColorScheme,
 } from '@mantine/core';
 import { IconClipboardList, IconCheck, IconClock } from '@tabler/icons-react';
 import type { TodoStats as TodoStatsType } from '../../types';
@@ -21,7 +21,8 @@ interface TodoStatsProps {
  */
 export function TodoStats({ stats }: TodoStatsProps) {
   const { colorScheme } = useMantineColorScheme();
-  const completionRate = stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
+  const completionRate =
+    stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
 
   return (
     <Paper
@@ -41,14 +42,14 @@ export function TodoStats({ stats }: TodoStatsProps) {
               전체: {stats.total}
             </Text>
           </Group>
-          
+
           <Group gap="xs">
             <IconCheck size={20} color="#40c057" />
             <Text size="sm" fw={500}>
               완료: {stats.completed}
             </Text>
           </Group>
-          
+
           <Group gap="xs">
             <IconClock size={20} color="#fab005" />
             <Text size="sm" fw={500}>
@@ -59,28 +60,16 @@ export function TodoStats({ stats }: TodoStatsProps) {
 
         {/* 우선순위 및 완료율 배지 - 반응형 배치 */}
         <Group gap="sm" justify="center" wrap="wrap">
-          <Badge
-            color="blue"
-            variant="light"
-            size="sm"
-          >
+          <Badge color="blue" variant="light" size="sm">
             높음: {stats.priorityCount.high}
           </Badge>
-          <Badge
-            color="yellow"
-            variant="light"
-            size="sm"
-          >
+          <Badge color="yellow" variant="light" size="sm">
             중간: {stats.priorityCount.medium}
           </Badge>
-          <Badge
-            color="green"
-            variant="light"
-            size="sm"
-          >
+          <Badge color="green" variant="light" size="sm">
             낮음: {stats.priorityCount.low}
           </Badge>
-          
+
           <Badge
             color={completionRate === 100 ? 'green' : 'blue'}
             variant="filled"
