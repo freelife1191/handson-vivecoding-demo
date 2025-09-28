@@ -37,7 +37,7 @@ jobs:
       run: |
         cd frontend
         echo "Installing dependencies..."
-        npm ci --verbose --ignore-scripts
+        HUSKY=0 npm ci --verbose
         echo "Dependencies installed successfully"
         
     - name: Run lint
