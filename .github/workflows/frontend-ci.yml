@@ -157,7 +157,7 @@ jobs:
         }
         
         # HTML 내용 확인
-        curl -s "$DEPLOY_URL" | grep -q "TODO" || {
+        curl -s "$DEPLOY_URL" | grep -q "Vite + React + TS" || {
           echo "❌ Smoke test failed: Expected content not found"
           exit 1
         }
