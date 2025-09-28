@@ -19,4 +19,4 @@ function App() {
 }
 
 export default App;
-// Git Hook 테스트용 주석 - E2E 테스트 확인
+// Git Hook 테스트용 주석 - E2E 테스트 및 GitHub Actions 배포 확인
