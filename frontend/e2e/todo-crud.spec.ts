@@ -54,8 +54,8 @@ test.describe('Todo CRUD 기능', () => {
     // 더보기 메뉴 클릭
     await page.click('button[aria-label="더보기 메뉴"]');
 
-    // 삭제 메뉴가 표시되는지 확인
-    await expect(page.locator('text=삭제')).toBeVisible();
+    // 삭제 메뉴가 표시되는지 확인 (메뉴 항목만 선택)
+    await expect(page.locator('[role="menuitem"]:has-text("삭제")')).toBeVisible();
   });
 
   test('여러 Todo 관리', async ({ page }) => {
