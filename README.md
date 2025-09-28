@@ -412,3 +412,4 @@ https://m.hanbit.co.kr/product/C7620533084
 # Final test 2
 # Trigger new deployment
 # Trigger deployment test
+# Fix icon issue

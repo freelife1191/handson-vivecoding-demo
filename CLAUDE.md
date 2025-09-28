@@ -149,75 +149,127 @@ Location: `.husky/pre-commit`
 4. **Code Quality**: Automatically handled by pre-commit hooks
 5. **Build**: `npm run build` (TypeScript + Vite build)
 
-## SuperClaude Framework Integration
+## Sub Agents Integration
 
-### Command Recommendations
+### Intelligent Task Routing
 
-When working on this project, use appropriate SuperClaude commands for optimal workflow:
+When receiving requests, Claude Code should automatically delegate to appropriate specialized agents based on the request type and complexity.
 
-```bash
-# Session Management
-/sc:load .              # Load project context at session start
-/sc:save               # Save session state regularly (every 30min)
+### Available Sub Agents
 
-# Analysis & Planning
-/sc:analyze --focus [architecture|performance|security|quality]
-/sc:brainstorm "[feature description]"
-/sc:workflow "[task description]" --format checklist
+#### Core Development Agents
+- **general-purpose**: Complex multi-step tasks, research, code search
+- **python-expert**: Production-ready Python code following SOLID principles
+- **frontend-architect**: Accessible, performant UI with modern frameworks
+- **backend-architect**: Reliable backend systems with data integrity focus
+- **system-architect**: Scalable system architecture and technical decisions
 
-# Implementation
-/sc:implement "[feature]" --tdd              # For TDD approach
-/sc:implement "[ui component]" --magic       # For UI components
-/sc:design "[system/feature]" --focus [frontend|backend]
+#### Quality & Analysis Agents
+- **refactoring-expert**: Code quality improvement and technical debt reduction
+- **performance-engineer**: System performance optimization and bottleneck elimination
+- **security-engineer**: Security vulnerability identification and compliance
+- **quality-engineer**: Comprehensive testing strategies and edge case detection
+- **root-cause-analyst**: Complex problem investigation and diagnosis
 
-# Testing & Quality
-/sc:test --type [unit|integration|e2e] --coverage
-/sc:improve --focus [performance|quality|accessibility]
-/sc:troubleshoot "[issue description]" --type [runtime|build]
+#### Specialized Workflow Agents
+- **requirements-analyst**: Transform ambiguous ideas into concrete specifications
+- **technical-writer**: Clear, comprehensive technical documentation
+- **learning-guide**: Programming education with progressive learning
+- **socratic-mentor**: Educational guidance using Socratic method
 
-# Build & Deploy
-/sc:build "[target]" --type [frontend|backend|infrastructure]
+### Task-Agent Mapping
+
+#### Frontend Development Tasks
+```
+"Create React component" → frontend-architect
+"Optimize rendering performance" → performance-engineer
+"Add accessibility features" → frontend-architect
+"Refactor component structure" → refactoring-expert
 ```
 
-### Expert Agents for Project Domains
-
-Use specialized agents for domain-specific guidance:
-
-```bash
-# Frontend Development
-@agent-frontend-architect    # React/Mantine UI architecture
-@agent-performance-engineer  # Performance optimization
-
-# Quality & Testing
-@agent-quality-engineer      # TDD strategy and test patterns
-@agent-refactoring-expert   # Code quality improvement
-
-# Backend Development (for stages 7-8)
-@agent-backend-architect    # AWS serverless architecture
-@agent-security-engineer    # Security best practices
-
-# DevOps (for stages 9-10)
-@agent-devops-architect     # CI/CD and infrastructure
+#### Backend Development Tasks
+```
+"Design API architecture" → backend-architect
+"Implement authentication" → security-engineer + backend-architect
+"Optimize database queries" → performance-engineer
+"Design microservices" → system-architect
 ```
 
-### MCP Server Usage
+#### Code Quality Tasks
+```
+"Fix code smells" → refactoring-expert
+"Improve test coverage" → quality-engineer
+"Debug performance issue" → root-cause-analyst + performance-engineer
+"Security audit" → security-engineer
+```
 
-Leverage MCP servers for enhanced capabilities:
+#### Analysis & Documentation Tasks
+```
+"Analyze system architecture" → system-architect
+"Write technical documentation" → technical-writer
+"Explain complex concepts" → learning-guide
+"Requirements gathering" → requirements-analyst
+```
 
-- **serena** 🧭: Project memory and semantic code understanding
-- **context7** 📚: Official React/Vite/Mantine documentation
-- **magic** ✨: Modern UI component generation
-- **playwright** 🎭: E2E testing and accessibility validation
-- **sequential-thinking** 🧠: Complex problem analysis
+### Delegation Triggers
 
-### Workflow Integration Examples
+#### Automatic Delegation (No user prompt needed)
+- **Complex multi-step tasks** (>3 steps) → general-purpose
+- **Performance issues** → performance-engineer
+- **Security concerns** → security-engineer
+- **Code quality problems** → refactoring-expert
+- **Architecture decisions** → system-architect or frontend-architect
 
-For comprehensive guidance on using SuperClaude commands in this project:
+#### Request Pattern Recognition
+```
+"How to..." → learning-guide or socratic-mentor
+"Optimize..." → performance-engineer
+"Secure..." → security-engineer
+"Debug..." → root-cause-analyst
+"Refactor..." → refactoring-expert
+"Design..." → system-architect or frontend-architect
+"Test..." → quality-engineer
+"Document..." → technical-writer
+```
 
-- **General Guidelines**: See `/Users/freelife/vive/study/handson-vivecoding-demo/docs/Guideline.md`
-- **Project-Specific Workflows**: See `/Users/freelife/vive/study/handson-vivecoding-demo/docs/SuperClaude_Project_Guideline.md`
+### Agent Coordination Strategies
 
-These documents provide detailed command combinations, workflow patterns, and stage-specific SuperClaude strategies for optimal development experience.
+#### Sequential Processing
+For tasks requiring multiple expertise areas:
+1. **Analysis Phase**: root-cause-analyst or system-architect
+2. **Implementation Phase**: Appropriate specialist (frontend/backend/python-expert)
+3. **Quality Phase**: quality-engineer or refactoring-expert
+4. **Security Review**: security-engineer (if applicable)
+
+#### Parallel Processing
+For independent subtasks:
+- Multiple agents working on different components simultaneously
+- Results aggregated and coordinated by primary agent
+
+### Project-Specific Agent Usage
+
+#### Todo App Frontend (Current Phase)
+- **Primary**: frontend-architect (React + Mantine UI)
+- **Secondary**: quality-engineer (TDD implementation)
+- **Support**: refactoring-expert (code organization)
+
+#### Backend Development (Future Phases)
+- **Primary**: backend-architect (AWS serverless)
+- **Secondary**: security-engineer (authentication/authorization)
+- **Support**: performance-engineer (optimization)
+
+#### Testing & Quality Assurance
+- **Primary**: quality-engineer (comprehensive testing)
+- **Secondary**: performance-engineer (performance testing)
+- **Support**: security-engineer (security testing)
+
+### Best Practices for Agent Utilization
+
+1. **Clear Context**: Always provide full project context to agents
+2. **Specific Requirements**: Include technical constraints and requirements
+3. **Quality Standards**: Reference project rules and coding standards
+4. **Progress Tracking**: Use TodoWrite for multi-agent coordination
+5. **Result Validation**: Verify agent outputs against project standards
 
 ## Important Notes
 
