@@ -146,7 +146,7 @@ jobs:
     - name: Smoke test after deployment
       run: |
         # GitHub Pages URL 구성
-        DEPLOY_URL="https://${{ github.repository_owner }}.github.io/handson-vivecoding-demo"
+        DEPLOY_URL="https://${{ github.repository_owner }}.github.io/handson-vivecoding-demo/"
         
         echo "Testing deployed site: $DEPLOY_URL"
         
