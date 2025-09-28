@@ -188,6 +188,8 @@ fi
 
 # gh-pages 브랜치로 배포
 log_info "🌿 gh-pages 브랜치로 배포"
+# 루트 디렉토리로 이동하여 git subtree push 실행
+cd "$PROJECT_ROOT"
 git subtree push --prefix=frontend/dist origin gh-pages
 if [ $? -ne 0 ]; then
     log_warning "⚠️  gh-pages 브랜치가 없거나 푸시에 실패했습니다."
