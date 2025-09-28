@@ -175,3 +175,4 @@ npm run test:coverage
 - [프로젝트 전체 가이드](../README.md) - 모노레포 구조, 공통 타입, 스토리지 전략
 - [Git Hook 자동화](../README.md#git-hook을-통한-자동화된-코드-품질-관리) - 코드 품질 자동 검증
 - [진행상황 체크리스트](../docs/checklist.md) - 개발 진행상황
+# CI Test
