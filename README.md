@@ -24,7 +24,9 @@
 - **GitHub Actions** - CI/CD 파이프라인
 - **GitHub Pages** - 프론트엔드 배포
 
-## 📁 프로젝트 구조
+## 📁 모노레포 구조
+
+이 프로젝트는 모노레포 구조로 설계되어 있으며, 각 패키지가 독립적으로 개발되면서도 공통 코드를 공유합니다:
 
 ```
 handson-vivecoding-demo/
@@ -65,6 +67,78 @@ handson-vivecoding-demo/
 │   └── checklist.md    # 진행상황 체크리스트
 └── README.md           # 프로젝트 설명서
 ```
+
+### 모노레포 장점
+- **코드 공유**: shared 디렉토리를 통한 타입 및 유틸리티 공유
+- **일관성**: 프론트엔드/백엔드 간 동일한 타입 정의 사용
+- **효율성**: 단일 저장소에서 전체 프로젝트 관리
+- **확장성**: 새로운 패키지 추가 시 기존 구조 활용
+- **의존성 관리**: 패키지 간 의존성을 명확하게 관리
+
+## 🔧 공통 타입 시스템
+
+프로젝트는 체계적인 타입 시스템을 통해 프론트엔드와 백엔드 간 타입 안전성을 보장합니다:
+
+### 핵심 타입 정의
+```typescript
+// Todo 관련 타입 (shared/types/)
+interface Todo {
+  id: string;
+  title: string;
+  priority: 'low' | 'medium' | 'high';
+  status: 'pending' | 'completed';
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// 우선순위 정보
+const PRIORITY_INFO = {
+  low: { label: '낮음', color: 'green' },
+  medium: { label: '중간', color: 'yellow' },
+  high: { label: '높음', color: 'red' }
+};
+
+// 필터 및 정렬 타입
+type TodoFilter = 'all' | 'pending' | 'completed';
+type TodoSortBy = 'createdAt' | 'priority' | 'title';
+type SortOrder = 'asc' | 'desc';
+```
+
+### 타입 시스템 특징
+- **엄격한 타입 체크**: TypeScript strict 모드 활성화
+- **공통 타입 공유**: shared 디렉토리를 통한 프론트엔드/백엔드 타입 동기화
+- **런타임 검증**: Zod를 통한 데이터 유효성 검사
+- **자동 완성**: IDE에서 완벽한 타입 추론 및 자동 완성 지원
+
+## 💾 스토리지 전략
+
+프로젝트는 유연한 스토리지 전략을 통해 로컬 개발과 프로덕션 환경을 모두 지원합니다:
+
+### 스토리지 아키텍처
+```typescript
+// 스토리지 서비스 인터페이스 (shared/types/)
+interface StorageService {
+  getTodos(): Promise<Todo[]>;
+  saveTodos(todos: Todo[]): Promise<void>;
+  clearTodos(): Promise<void>;
+}
+
+// 구현체들
+- LocalStorageService    # 로컬 개발용 (localStorage)
+- ApiStorageService      # 프로덕션용 (REST API)
+- StorageManager         # 전략 전환 관리
+```
+
+### 전환 메커니즘
+1. **개발 단계**: LocalStorageService 사용 (완전 독립 동작)
+2. **통합 단계**: StorageManager를 통한 자동 전환
+3. **프로덕션**: ApiStorageService 사용 (AWS 서버리스 API)
+
+### 장점
+- **독립 개발**: 백엔드 없이도 완전한 프론트엔드 개발 가능
+- **점진적 통합**: 단계별 백엔드 연결로 리스크 최소화
+- **유연성**: 환경에 따른 스토리지 전략 자동 선택
+- **테스트 용이성**: Mock 스토리지 서비스로 테스트 간소화
 
 ## 🛠️ 설치 및 실행
 
