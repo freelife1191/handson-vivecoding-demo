@@ -2,7 +2,6 @@ import {
   Box,
   ActionIcon,
   useMantineColorScheme,
-  useMantineTheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
@@ -15,8 +14,7 @@ import { useMediaQuery } from '@mantine/hooks';
  */
 export function TabBar() {
   const { colorScheme } = useMantineColorScheme();
-  const theme = useMantineTheme();
-  const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  const isMobile = useMediaQuery(`(max-width: 767px)`);
 
   // 모바일이 아닌 경우 Tab Bar를 렌더링하지 않음
   if (!isMobile) {
@@ -30,6 +28,7 @@ export function TabBar() {
 
   return (
     <Box
+      data-testid="tab-bar"
       style={{
         position: 'fixed',
         bottom: 0,

@@ -1,4 +1,4 @@
-import { Box, useMantineColorScheme, useMantineTheme } from '@mantine/core';
+import { Box, useMantineColorScheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { Header } from './Header';
 import { TabBar } from './TabBar';
@@ -16,8 +16,7 @@ interface LayoutProps {
  */
 export function Layout({ children }: LayoutProps) {
   const { colorScheme } = useMantineColorScheme();
-  const theme = useMantineTheme();
-  const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+  const isMobile = useMediaQuery(`(max-width: 767px)`);
 
   return (
     <Box
