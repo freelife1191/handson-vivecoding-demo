@@ -1,8 +1,4 @@
-import {
-  Box,
-  ActionIcon,
-  useMantineColorScheme,
-} from '@mantine/core';
+import { Box, ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
 /**
