@@ -122,17 +122,17 @@
   - [x] 스토리지 어댑터 통합 테스트
   - **커밋**: "통합 테스트 구현"
 
-- [ ] **5.3 E2E 테스트 자동화 (Playwright)**
-  - [ ] Playwright 설치 및 설정
-  - [ ] 주요 사용자 플로우 E2E 테스트 작성
-    - [ ] Todo CRUD 전체 플로우 테스트
-    - [ ] 필터링 및 정렬 기능 E2E 테스트
-    - [ ] 반응형 디자인 테스트 (모바일/데스크톱)
-    - [ ] Tab Bar 반응형 동작 테스트
-  - [ ] 크로스 브라우저 테스트 설정 (Chrome, Firefox, Safari)
-  - [ ] 테스트 결과 보고서 설정 (HTML 리포트)
-  - [ ] GitHub Actions 워크플로우에 Playwright 테스트 통합
-  - [ ] 테스트 결과 아티팩트 업로드 및 배지 설정
+- [x] **5.3 E2E 테스트 자동화 (Playwright)**
+  - [x] Playwright 설치 및 설정
+  - [x] 주요 사용자 플로우 E2E 테스트 작성
+    - [x] Todo CRUD 전체 플로우 테스트
+    - [x] 필터링 및 정렬 기능 E2E 테스트
+    - [x] 반응형 디자인 테스트 (모바일/데스크톱)
+    - [x] Tab Bar 반응형 동작 테스트
+  - [x] 크로스 브라우저 테스트 설정 (Chrome, Firefox, Safari)
+  - [x] 테스트 결과 보고서 설정 (HTML 리포트)
+  - [x] GitHub Actions 워크플로우에 Playwright 테스트 통합
+  - [x] 테스트 결과 아티팩트 업로드 및 배지 설정
   - **커밋**: "E2E 테스트 자동화 (Playwright) 구현"
 
 - [x] **5.4 Git Hook 자동화 검증**
