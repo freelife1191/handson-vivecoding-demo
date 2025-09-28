@@ -20,6 +20,11 @@
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:report": "playwright show-report",
+    "deploy": "../scripts/deploy.sh",
+    "deploy:dev": "../scripts/deploy.sh dev",
+    "deploy:staging": "../scripts/deploy.sh staging",
+    "deploy:prod": "../scripts/deploy.sh prod",
+    "rollback": "../scripts/rollback.sh",
     "prepare": "husky"
   },
   "dependencies": {
