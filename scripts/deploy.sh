@@ -78,12 +78,18 @@ fi
 # 2. 현재 브랜치 확인
 CURRENT_BRANCH=$(git branch --show-current)
 if [ "$CURRENT_BRANCH" != "$BRANCH" ]; then
-    log_warning "⚠️  현재 브랜치($CURRENT_BRANCH)가 배포 브랜치($BRANCH)와 다릅니다."
-    read -p "계속 진행하시겠습니까? (y/N): " -n 1 -r
-    echo
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        log_info "배포가 취소되었습니다."
-        exit 0
+    # master 브랜치를 main으로 인식 (GitHub 기본 브랜치)
+    if [ "$CURRENT_BRANCH" = "master" ] && [ "$BRANCH" = "main" ]; then
+        log_info "ℹ️  master 브랜치를 main으로 인식하여 배포를 진행합니다."
+        BRANCH="master"
+    else
+        log_warning "⚠️  현재 브랜치($CURRENT_BRANCH)가 배포 브랜치($BRANCH)와 다릅니다."
+        read -p "계속 진행하시겠습니까? (y/N): " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            log_info "배포가 취소되었습니다."
+            exit 0
+        fi
     fi
 fi
 
