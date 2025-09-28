@@ -29,7 +29,7 @@
 이 프로젝트는 모노레포 구조로 설계되어 있으며, 각 패키지가 독립적으로 개발되면서도 공통 코드를 공유합니다:
 
 ```
-handson-vivecoding-demo/
+handson-vibecoding-demo/
 ├── frontend/           # React + Mantine 기반 프론트엔드
 │   ├── src/
 │   │   ├── components/ # 재사용 가능한 UI 컴포넌트
@@ -151,7 +151,7 @@ interface StorageService {
 ### 프로젝트 클론
 ```bash
 git clone <repository-url>
-cd handson-vivecoding-demo
+cd handson-vibecoding-demo
 ```
 
 ### 의존성 설치
@@ -210,7 +210,7 @@ git push origin master  # master 브랜치 푸시 시 자동 배포
 ```
 
 #### 배포 URL
-- **프로덕션**: https://freelife1191.github.io/handson-vivecoding-demo/
+- **프로덕션**: https://freelife1191.github.io/handson-vibecoding-demo/
 
 #### 배포 설정 가이드
 

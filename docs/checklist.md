@@ -395,7 +395,7 @@ curl -s "https://username.github.io/repository-name/" | head -20
    - UI/UX 개선 (2순위) ✅ **완료**
    - 테스트 및 품질 보증 (3순위) ✅ **완료**
    - **GitHub Pages 배포** ✅ **완료** (2025-09-28)
-     - **배포 URL**: https://freelife1191.github.io/handson-vivecoding-demo/
+     - **배포 URL**: https://freelife1191.github.io/handson-vibecoding-demo/
      - **배포 방식**: GitHub Actions + GitHub Pages
      - **문제 해결**: Vite base 경로 설정으로 자산 파일 로드 문제 해결
      - **테스트 완료**: E2E 테스트 85개 모두 통과, 실제 배포 환경에서 Todo 기능 정상 작동 확인
