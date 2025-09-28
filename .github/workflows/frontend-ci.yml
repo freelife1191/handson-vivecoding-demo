@@ -41,12 +41,10 @@ jobs:
         
     - name: Install dependencies
       run: |
+        cd frontend
         echo "Installing dependencies..."
-        npm install --verbose
+        HUSKY=0 npm install --verbose
         echo "Dependencies installed successfully"
-      env:
-        HUSKY: 0
-        CI: true
         
     - name: Run lint
       run: |
