@@ -2,12 +2,12 @@ name: Frontend CI/CD
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, master, develop ]
     paths:
       - 'frontend/**'
       - '.github/workflows/frontend-ci.yml'
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, master, develop ]
     paths:
       - 'frontend/**'
       - '.github/workflows/frontend-ci.yml'
@@ -100,11 +100,11 @@ jobs:
         echo "## 📝 참고사항" >> $GITHUB_STEP_SUMMARY
         echo "- E2E 테스트는 로컬 Git Push 시점에 실행됩니다" >> $GITHUB_STEP_SUMMARY
 
-  # 배포 (main 브랜치에서만)
+  # 배포 (main 또는 master 브랜치에서만)
   deploy:
     runs-on: ubuntu-latest
     needs: [test-and-build]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name == 'push'
     
     steps:
     - name: Checkout code
