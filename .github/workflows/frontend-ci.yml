@@ -119,7 +119,7 @@ jobs:
     needs: [test-and-build]
     if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && github.event_name == 'push'
     permissions:
-      contents: read
+      contents: write
       pages: write
       id-token: write
     
@@ -133,12 +133,17 @@ jobs:
         name: frontend-build
         path: frontend/dist/
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: frontend/dist/
-        force_orphan: true
+        path: frontend/dist/
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
         
     - name: Wait for deployment
       run: sleep 30
